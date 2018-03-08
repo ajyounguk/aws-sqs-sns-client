@@ -1,0 +1,109 @@
+<html>
+<head><link rel="stylesheet" type="text/css" href="styles.css" /> </head>
+
+<body style="background-color:rgb(230, 250, 229);">
+<div class="simple-style" >
+
+<div>
+<h2>Simple Notification Service (SNS) Test Form</h2>
+<hr>
+</div>
+
+<title>SNS</title>
+<br>
+
+<!-- 1. Create Topic -->
+<form method="POST" action="/sns" >
+<br><span>1. Create SNS Topic</span><hr>
+<ul>
+    <label>Topic Name:</label>
+    <input placeholder ="SNS Topic Name" id ="snstopic" type="text" name ="snstopic" size=100  required >
+    <br><br><input type="submit" value="Create Topic">
+    </ul>
+</form>
+    
+<!-- 2. Add Queue Subscription -->
+<form method="POST"  action="/sns/subscribe-queue">
+<br> 
+<br><span>2. Subscribe Queue to SNS Topic</span><hr> 
+    <ul>
+    <label>SNS Topic ARN:</label>
+    <input placeholder ="SNS Topic ARN" class="field-long" id ="snsarn" type="text" name ="snsarn"   required >
+    <br><br>
+    <label>SQS Queue ARN:</label>
+    <input placeholder ="SQS Queue ARN" class="field-long" id ="sqsarn" type="text" name ="sqsarn"  required >
+    <br><br><input  type="submit" value="Create Queue Subscription">
+    <br><label class="required">*remember to set sns policy to queue</label>
+</ul>
+</form>
+
+<!-- 3. Add email Subscription -->
+<form method="POST" action="/sns/subscribe-email" >
+<br>
+<br><span>3. Subscribe email to SNS Topic</span><hr> 
+<ul>  
+    <label>SNS Topic ARN:</label>
+    <input placeholder="SNS Topic ARN" class="field-long" id ="snsarn" type="text" name ="snsarn"   required >
+    <br><br>
+    <label>Email Address:</label>
+    <input placeholder="Email Address" class="field-long" id ="email" type="text" name ="email"  required >
+    <br><br><input type="submit" value="Create Email Subscription">
+</ul>
+</form>
+
+<!-- 4. Send message to topic  -->
+<form method="POST" action="/sns/message" >
+<br>
+<br><span>4. Send Message to Topic</span><hr>
+<ul>
+        <label>SNS Topic ARN:</label>
+        <input placeholder ="SNS Topic ARN" class="field-long" id ="snstopicarn" type="text" name ="snstopicarn"  required >
+        <br><br>
+        <label>Message:</label>
+        <input placeholder="Mesage" class="field-long" id ="snsmessage" type="text" name ="snsmessage"   required >
+        <br><br><input type="submit" value="Send message to topic">
+</ul>
+</form>
+
+<!-- 5. List topics  -->
+<form method="GET" action="/sns" >
+<br>
+
+<br><span>5. List SNS Topics</span><hr>
+<ul>
+    <br><input  type="submit" value="List Topics">
+</ul>
+</form>
+
+<!-- 6. Delete Topic -->
+<form method="POST" action="/sns/delete-topic" >
+<br>
+<br><span>6. Delete SNS Topic</span><hr>   
+<ul>
+    <label>SNS Topic ARN:</label>
+    <input placeholder="SNS Topic ARN" class="field-long" id ="snsarn" type="text" name ="snsarn"   required >
+    <br><br><input  type="submit" value="Delete Topic">
+</ul>
+</form>
+
+<!-- 7. List Subscriptions -->
+<form method="GET" action="/sns/subscription" >
+<br>
+<br><span>7. List SNS Subscriptions</span><hr>
+<ul>
+    <br><input  type="submit" value="List Subscriptions">
+</ul>
+</form>
+
+<!-- 8. Delete Subscription -->
+<form method="POST" action="/sns/delete-subscription" >
+<br>
+<br><span>8. Delete SNS Subscription</span><hr>  
+<ul>
+    <label>SNS Subscription ARN:</label>
+    <input placeholder="SNS Subscription ARN" class="field-long" id ="snssubarn" type="text" name ="snssubarn"   required >
+    <br><br><input type="submit" value="Delete Subscripiton">
+</ul>
+</form>
+</div>
+</html>

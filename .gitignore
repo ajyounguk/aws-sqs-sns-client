@@ -1,0 +1,5 @@
+/node_modules
+/config/aws-config.json
+.DS_Store
+
+

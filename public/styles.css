@@ -1,0 +1,180 @@
+
+
+.simple-style {
+    margin :10px;
+}
+
+.simple-style body {
+    margin : 0px;   
+}
+
+.simple-style div {
+    padding : 15px 15px ;
+    background-color: rgb(31, 104, 122);
+
+}
+
+.simple-style hr {
+    display: block;
+    height: 3px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 0;
+    padding: 0; 
+    padding : 2px 0px 0px 0px ;
+    border-color :rgb(153, 213, 228);
+
+}
+.simple-style span {
+    font-family : Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.simple-style h1 {
+    font-family : Arial, "Helvetica Neue", Helvetica, sans-serif;
+    margin : 10px 10px 10px 10px;
+    display : block;
+}
+
+.simple-style h2 {
+    font-family : Arial, "Helvetica Neue", Helvetica, sans-serif;
+    margin : 0 0 3px 0;
+    padding : 2px;
+    display : block;
+    font-weight : bold;
+    color: rgb(197, 227, 228);
+}
+
+.simple-style h3 {
+    font-family : Arial, "Helvetica Neue", Helvetica, sans-serif;
+    margin : 0 0 3px 0;
+    padding : 0;
+    display : block;
+    font-weight : bold;
+}
+
+.simple-style li {
+    padding : 0;
+    display : block;
+    list-style : none;
+    margin : 10px 0 0 0;
+}
+
+.simple-style fieldset {
+    font-family : Arial, "Helvetica Neue", Helvetica, sans-serif;
+    padding : 10px;
+    display : block;
+    list-style : none;
+    margin : 10px 10px 10px 10px;
+    width : 600px;
+    background-color : rgb(228, 230, 252);
+}
+
+.simple-style legend {
+    font-family : Arial, "Helvetica Neue", Helvetica, sans-serif;
+    margin : 30px 0 3px 0;
+    padding : 0;
+    display : block;
+    font-weight : bold;
+    font : 19px;
+    color : rgb(1, 12, 12);
+}
+
+.simple-style label {
+    font-family : Arial, "Helvetica Neue", Helvetica, sans-serif;
+    margin : 12px 0 3px 0;
+    padding : 0;
+    display : block;
+    font-size : 14px;
+}
+
+.simple-style textarea {
+    padding : 7px;
+    display : block;
+    font-weight : bold;
+    font : 14px;
+    background-color : rgb(252, 252, 252);
+}
+
+.simple-style form {
+    margin : 0 0 3px 0;
+    padding : 0;
+    display : block;
+    font-weight : bold;
+    font : 14px;
+}
+
+.simple-style input[type=text], 
+.simple-style input[type=date],
+.simple-style input[type=datetime],
+.simple-style input[type=number],
+.simple-style input[type=search],
+.simple-style input[type=time],
+.simple-style input[type=url],
+.simple-style input[type=email],
+textarea, 
+select{
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    border:1px solid #BEBEBE;
+    padding: 7px;
+    margin:0px;
+    transition: all .30s ease-in-out;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;  
+}
+.simple-style input[type=text]:focus, 
+.simple-style input[type=date]:focus,
+.simple-style input[type=datetime]:focus,
+.simple-style input[type=number]:focus,
+.simple-style input[type=search]:focus,
+.simple-style input[type=time]:focus,
+.simple-style input[type=url]:focus,
+.simple-style input[type=email]:focus,
+.simple-style textarea:focus, 
+.simple-style select:focus{
+    -moz-box-shadow: 0 0 8px #88D5E9;
+    -webkit-box-shadow: 0 0 8px #88D5E9;
+    box-shadow: 0 0 8px #88D5E9;
+    border: 1px solid #88D5E9;
+}
+.simple-style .field-divided{
+    width: 49%;
+}
+.simple-style .field-small{
+    width: 45%;
+}
+
+.simple-style .field-long{
+    width: 100%;
+}
+.simple-style .field-select{
+    width: 100%;
+}
+.simple-style .field-textarea{
+    height: 100px;
+}
+.simple-style input[type=submit], .simple-style input[type=button]{
+    background: rgb(31, 104, 122);
+    padding: 8px 15px 8px 15px;
+    border: none;
+    color: #fff;
+}
+.simple-style input[type=submit]:hover, .simple-style input[type=button]:hover{
+    background: rgb(0, 9, 12);
+    box-shadow:none;
+    -moz-box-shadow:none;
+    -webkit-box-shadow:none;
+}
+
+.simple-style .required{
+    color:red;
+}
+
+input[readonly]
+{
+    background-color: rgb(245, 246, 255);
+}

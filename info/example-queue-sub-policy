@@ -1,0 +1,19 @@
+WORKING policy
+{
+  "Version": "2012-10-17",
+  "Id": "arn:aws:sqs:eu-west-2:684243278952:test-queue/SQSDefaultPolicy",
+  "Statement": [
+    {
+      "Sid": "Sid1517849186492",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "SQS:SendMessage",
+      "Resource": "arn:aws:sqs:eu-west-2:684243278952:test-queue",
+      "Condition": {
+        "ArnEquals": {
+          "aws:SourceArn": "arn:aws:sns:eu-west-2:684243278952:test-topic"
+        }
+      }
+    }
+  ]
+}

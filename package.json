@@ -1,0 +1,26 @@
+{
+  "name": "sqs-test-server",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "aws-sdk": "~2.1.36",
+    "body-parser": "^1.18.2",
+    "express": "~4.12.4"
+  },
+  "description": "## What is this? Demo code that excercises the AWS SNS & SQS functionality via the API",
+  "main": "app.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajyounguk/aws-sns-sqs-demo.git"
+  },
+  "author": "Andrew Young",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ajyounguk/aws-sns-sqs-demo/issues"
+  },
+  "homepage": "https://github.com/ajyounguk/aws-sns-sqs-demo#readme"
+}
