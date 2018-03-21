@@ -1,7 +1,7 @@
-## AWS SQS & SNS NodeJS Example / Demo code
+## AWS SQS & SNS Node.js Example / Demo code
 
 ## What is this?
-node js web server + html forms that excercise AWS SNS & SQS functionality 
+Node.js web server + html forms that excercise AWS SNS & SQS functionality 
 
 ## Contains
 - app.js = main app & webserver. Launch this
