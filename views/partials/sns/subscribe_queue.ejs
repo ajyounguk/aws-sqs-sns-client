@@ -1,0 +1,16 @@
+<!-- 2. Subscribe Queue -->
+<div id="4" class="menu-div" style="display:none">
+    <form method="POST"  action="/sns/subscribe-queue">
+        <br> 
+        <br><span>2. Subscribe Queue to SNS Topic</span><hr> 
+        <ul>
+        <label>SNS Topic ARN:</label>
+        <input placeholder ="SNS Topic ARN" class="field-long" id ="snsarn" type="text" name ="snsarn"   required >
+        <br><br>
+        <label>SQS Queue ARN:</label>
+        <input placeholder ="SQS Queue ARN" class="field-long" id ="sqsarn" type="text" name ="sqsarn"  required >
+        <br><br><input  type="submit" value="Create Queue Subscription">
+        <br><label class="required">*remember to set sns policy to queue</label>
+        </ul>
+    </form>
+</div>

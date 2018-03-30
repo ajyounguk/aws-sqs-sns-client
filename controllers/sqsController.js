@@ -89,10 +89,10 @@ module.exports = function (app) {
 
 
 
-    // 4. get Queue URL. input = queue name
+    // 4. get Queue Attributes. input = queue URL
     app.get('/sqs-queue/attributes', function (req, res) {
 
-        // pass in the queue name to get the queue URL
+        // pass in the queue URL to get Attributes
         var qParams = {
             QueueUrl: req.query.queueurl,
             AttributeNames: ["All"]

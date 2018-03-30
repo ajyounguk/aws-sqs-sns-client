@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/assets/styles.css"/>
+    <title>AWS SQS SNS Demo</title>
+</head>
+
+<body class="simple-style" onload="menuOption(<%= awsdemo.menuItem %>)">
+
+<% include ./partials/menunav.ejs %>
+
+<% include ./partials/sns/create_topic.ejs %>
+<% include ./partials/sns/delete_subscription.ejs %>
+<% include ./partials/sns/delete_topic.ejs %>
+<% include ./partials/sns/list_subscriptions.ejs %>
+<% include ./partials/sns/list_topics.ejs %>
+<% include ./partials/sns/send_message.ejs %>
+<% include ./partials/sns/subscribe_email.ejs %>
+<% include ./partials/sns/subscribe_queue.ejs %>
+
+
+<br>
+<br>
+<br>
+
+</body>
+</html>

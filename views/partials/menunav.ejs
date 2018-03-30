@@ -1,0 +1,70 @@
+<!-- menu navigation -->
+<script>
+    function menuOption(activeOption) {
+
+        activeOption--;
+        var i;
+        var activediv = document.getElementsByClassName("menu-div");
+        var activebutton = document.getElementsByClassName("menu-button");
+
+        for (i = 0; i < activediv.length; i++) {
+            if (i == activeOption) {    
+                activediv[i].style.display = "block"; 
+                activebutton[i].style.background = "rgb(0, 9, 12)";
+            } else {
+                activediv[i].style.display  = "none"; 
+                activebutton[i].style.background = "";
+            }
+        }
+    }
+    function submenuOption(activeOption) {
+
+        activeOption--;
+        var i;
+        var activediv = document.getElementsByClassName("submenu-div");
+        var activebutton = document.getElementsByClassName("submenu-button");
+
+        for (i = 0; i < activediv.length; i++) {
+            if (i == activeOption) {    
+                activediv[i].style.display = "block"; 
+                activebutton[i].style.background = "rgb(0, 9, 12)";
+            } else {
+                activediv[i].style.display  = "none"; 
+                activebutton[i].style.background = "";
+            }
+        }
+    }
+</script>
+    
+    <div class ="titlediv">
+        <h2>AWS SNS/SQS Demo</h2><hr>
+
+        <input class ="submenu-button" type="submit" value ="SQS" onclick="submenuOption('1')">
+        <input class ="submenu-button" type="submit" value="SNS" onclick="submenuOption('2')">
+      
+
+      <div id="1" class="submenu-div" style="display:block">
+        <input class ="menu-button" type="submit" value ="Create Topic" onclick="menuOption('3')">
+        <input class ="menu-button" type="submit" value="Subscribe Queue" onclick="menuOption('4')">
+        <input class ="menu-button" type="submit" value="Subscribe Email" onclick="menuOption('5')">
+        <input class ="menu-button" type="submit" value="Send Message" onclick="menuOption('6')">
+        <input class ="menu-button" type="submit" value="List Topics" onclick="menuOption('7')">
+        <input class ="menu-button" type="submit" value="Delete Topics" onclick="menuOption('8')">
+        <input class ="menu-button" type="submit" value="List Subscriptions" onclick="menuOption('9')">
+        <input class ="menu-button" type="submit" value="Unsubscribe" onclick="menuOption('10')">
+       </div>
+       <div id="2" class="submenu-div" style="display:none">
+        <input class ="menu-button" type="submit" value ="Create Queue" onclick="menuOption('11')">
+        <input class ="menu-button" type="submit" value="List Queues" onclick="menuOption('12')">
+        <input class ="menu-button" type="submit" value="Get Queue URL" onclick="menuOption('13')">
+        <input class ="menu-button" type="submit" value="Get Attributes" onclick="menuOption('14')">
+        <input class ="menu-button" type="submit" value="Post Message" onclick="menuOption('15')">
+        <input class ="menu-button" type="submit" value="Get Message" onclick="menuOption('16')">
+        <input class ="menu-button" type="submit" value="Delete Message" onclick="menuOption('17')">
+        <input class ="menu-button" type="submit" value="Purge Queue" onclick="menuOption('18')">
+        <input class ="menu-button" type="submit" value="Delete Queue" onclick="menuOption('19')">
+        <input class ="menu-button" type="submit" value="Set Policy" onclick="menuOption('20')">
+     </div>
+    
+        <input type="button" onclick="location.href='/';" value="Reset" />
+    </div>
