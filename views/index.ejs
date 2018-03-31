@@ -5,18 +5,16 @@
     <title>AWS SQS SNS Demo</title>
 </head>
 
-<body class="simple-style" onload="menuOption(<%= awsdemo.menuItem %>)">
+<body class="simple-style" onload="navLoad()">
 
 <% include ./partials/menunav.ejs %>
 
-<% include ./partials/sns/create_topic.ejs %>
-<% include ./partials/sns/delete_subscription.ejs %>
-<% include ./partials/sns/delete_topic.ejs %>
-<% include ./partials/sns/list_subscriptions.ejs %>
-<% include ./partials/sns/list_topics.ejs %>
-<% include ./partials/sns/send_message.ejs %>
-<% include ./partials/sns/subscribe_email.ejs %>
-<% include ./partials/sns/subscribe_queue.ejs %>
+<% include ./partials/sns.ejs %>
+<% include ./partials/sqs.ejs %>
+
+
+
+
 
 
 <br>

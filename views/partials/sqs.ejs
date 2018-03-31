@@ -1,0 +1,119 @@
+
+<!-- 9. Create Queue -->
+<div id="9" class="menu-div" style="display:none">
+    <form method="POST" action="/sqs-queue">
+        <br><span>Create Queue</span><hr> 
+        <label>Queue Name:</label>
+        <input size=100 placeholder="Queue Name"  id="queuename" type="text" name="queuename" required >
+        <br><br><input    type="submit" value="Create Queue">
+    </form>
+</div>
+
+<!-- 10. List all Queues -->    
+<div id="10" class="menu-div" style="display:none">
+    <form  method="GET" action="/sqs-queue/list">
+        <br>
+        <br><span>List Queues</span><hr> 
+        <br><input type="submit" value="List Queue URLs">
+    </form>
+</div>
+
+<!-- 11. Get Queue Url -->    
+<div id="11" class="menu-div" style="display:none">
+    <form  method="GET" action="/sqs-queue">
+        <br>
+        <br><span>Get Queue Url</span><hr>
+        <label>Queue Name:</label>
+        <input size=100 placeholder="Queue Name"  id="queuename" type="text" name="queuename"   >
+        <br><br><input    type="submit" value="Get Queue URL">
+    </form>
+</div>
+
+<!-- 12. Get Queue Attributes -->
+<div id="12" class="menu-div" style="display:none">
+    <form  method="GET" action="/sqs-queue/attributes">
+        <br>
+        <br><span>Get Queue Attributes</span><hr>
+        <label>Queue URL:</label>
+        <input size=100 placeholder="Queue Url" id="queueurl" type="text" name="queueurl"  value="" required>
+        <br><br><input type="submit" value="Get Queue Attributes">
+    </form>
+</div>
+
+<!-- 13. Post Message to Queue -->    
+<div id="13" class="menu-div" style="display:none">
+    <form method="POST" action="/sqs-queue/message">
+        <br>
+        <br><span>Post Message To Queue</span><hr>
+        <label>Queue URL:</label>
+        <input size=100 placeholder="Queue Url" id="queueurl" type="text" name="queueurl"  value="" required>
+        <br>
+        <br><label>Message:</label>
+        <input size=100 placeholder="Message" id="message" type="text" name="message"  value="" required>
+        <br><br><input type="submit" value="Sent Message">
+    </form>
+</div>
+
+<!--14. Get Message from Queue -->    
+<div id="14" class="menu-div" style="display:none">
+    <form method="GET" action="/sqs-queue/message">
+        <br>
+        <br><span>Get Message From Queue</span><hr>
+        <label>Queue URL:</label>
+        <input size=100 placeholder="Queue Url" id="queueurl" type="text" name="queueurl"  value="" required>
+        <br><br><input type="submit" value="Retrieve Message">
+    </form>
+</div>
+
+<!-- 15. Delete Message from Queue -->    
+<div id="15" class="menu-div" style="display:none">
+    <form method="POST" action="/sqs-queue/message/delete">
+    <br>
+    <br><span>Delete Message From Queue</span><hr>
+        <label>Queue URL:</label>
+        <input size=100 placeholder="Queue Url" id="queueurl" type="text" name="queueurl"  value="" required>
+        <br>
+        <br><label>Message Receipt Handle:</label>
+        <input size=100 placeholder="Message Receipt Handle" id="messagehandle" type="text" name="messagehandle"  value="" required>
+        <br><br><input type="submit" value="Delete Message">
+    </form>
+</div>
+
+<!-- 16. Purge Queue (delete all messsages) -->    
+<div id="16" class="menu-div" style="display:none">
+    <form method="POST" action="/sqs-queue/purge">
+    <br>
+    <br><span>Purge Messages From Queue</span><hr>
+        <label>Queue URL:</label>
+        <input size=100 placeholder="Queue Url" id="queueurl" type="text" name="queueurl"  value="" required>
+        <br><br><input type="submit" value="PURGE Queue">
+    </form>
+</div>
+
+<!-- 17. Delete Queue (deletes queue and all messsages) --> 
+<div id="17" class="menu-div" style="display:none">   
+    <form method="POST" action="/sqs-queue/delete">
+        <br>
+        <br><span>Delete Queue</span><hr>
+        <label>Queue URL:</label>
+        <input size=100 placeholder="Queue Url" id="queueurl" type="text" name="queueurl"  value="" required>
+        <br><br><input type="submit" value="DELETE Queue">
+    </form>
+</div>
+
+<!-- 18. Set queue attributes  -->
+<div id="18" class="menu-div" style="display:none">
+    <form method="POST" action="/sqs/setqattr">
+        <br>
+        <br><span>Set Queue Policy</span><hr>
+        <label>Queue URL:</label>
+        <input size=100 placeholder="SQS Queue Url" id ="sqsurl" type="text" name="sqsurl"  required >
+        <br>
+        <br><label>Queue ARN:</label>
+        <input size=100 placeholder="SQS Queue Arn" id ="sqsarn" type="text" name="sqsarn"   required >
+        <br>
+        <br><label>Topic ARN:</label>
+        <input size=100 placeholder="SNS Topic Arn" id ="snsarn" type="text" name="snsarn"  required >
+        <br><br><input type="submit" value="Set Queue Policy">
+    </form>
+</div>

@@ -22,13 +22,12 @@
     border: 0;
     border-top: 1px solid #ccc;
     margin: 0;
-    padding: 0; 
-    padding : 2px 0px 0px 0px ;
+    padding : 0px 0px 0px 0px;
     border-color :rgb(153, 213, 228);
 
 }
 .simple-style span {
-    font-size : 12px;
+    font-size : 14px;
     margin: 5px;
     color: rgb(99, 99, 104);
 }
@@ -43,7 +42,7 @@
 
 .simple-style h2 {
     margin : 0 0 3px 0;
-    padding : 10px;
+    padding : 5px;
     display : block;
     font-weight : bold;
     color: rgb(197, 227, 228);
@@ -63,8 +62,6 @@
     display : block;
     font-weight : bold;
 }
-
-
 
 .simple-style li {
     padding : 0;
@@ -92,7 +89,7 @@
 }
 
 .simple-style label {
-    margin : 12px 0 3px 0;
+    margin : 5px; 
     padding : 0;
     display : block;
     font-size : 14px;
@@ -137,7 +134,7 @@ select{
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     border:1px solid #BEBEBE;
-    padding: 7px;
+    padding: 0px;
     margin: 5px;
     transition: all .30s ease-in-out;
     -webkit-transition: all 0.30s ease-in-out;
@@ -145,6 +142,8 @@ select{
     -ms-transition: all 0.30s ease-in-out;
     -o-transition: all 0.30s ease-in-out;
     outline: none;  
+    font-size: 13px;
+
 }
 
 .simple-style input[type=text]:focus, 
@@ -161,6 +160,7 @@ select{
     -webkit-box-shadow: 0 0 8px #88D5E9;
     box-shadow: 0 0 8px #88D5E9;
     border: 1px solid #88D5E9;
+    font-size: 14px;
 }
 
 .simple-style .field-divided{
@@ -188,7 +188,7 @@ select{
     padding: 8px 15px 8px 15px;
     border: none;
     margin: 5px;
-    font-size: 14px;
+    font-size: 12px;
     color: #fff;
 }
 
