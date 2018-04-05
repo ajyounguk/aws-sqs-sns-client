@@ -1,5 +1,5 @@
 // AWS test SQS controller / API 
-module.exports = function (app) {
+module.exports = function (app,ui) {
 
     // load the AWS SDK
     var aws = require('aws-sdk')
@@ -14,9 +14,15 @@ module.exports = function (app) {
 
     // create the sqs service object
     var sqs = new aws.SQS()
+
+
+
+    
    
-    // 1. create Queue - input = queue name
+    // 1. create Queue 
     app.post('/sqs-queue', function (req, res) {
+
+        ui.menuitem = 1
     
         var qParams = {
             QueueName: req.body.queuename
@@ -24,42 +30,35 @@ module.exports = function (app) {
 
         sqs.createQueue(qParams, function(err, data) {
             if (err) {
-                console.log("!!(create queue) Error creating queue", err)
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) Queue Creation Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                console.log("(create queue) Queue\" " + req.body.queuename + " \"created")
-                console.log("(create queue) Queue Url is:", data.QueueUrl)
                 res.status(201)
-                res.send(data)
+                ui.data[ui.menuitem] ='(201) Success:\n\n' + JSON.stringify(data, null, 3)
             }
+            res.render('./index', {ui: ui})
         })
     })
 
 
     // 2. list all queues (no input required)
     app.get('/sqs-queue/list', function (req, res){
+
+        ui.menuitem = 2
     
         sqs.listQueues(function(err, data) {
             if (err) {
-                console.log("!!(list queues)", err)
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) List Queue Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                if (data.QueueUrls) {
-
-                    console.log("(list queues) Found", data.QueueUrls.length, "queue(s)")  
-        
-                    for (i = 0; i < data.QueueUrls.length; i++) {
-                        console.log("(list queues) Queue Url", i+1 ,"is:" , data.QueueUrls[i])
-                    }
+                if (data.QueueUrls) {        
                     res.status(200)
-                    res.send(data)    
+                    ui.data[ui.menuitem] ='(200) Success:\n\n' + JSON.stringify(data, null, 3)
                 } else { // no queues
-                    console.log("(list queues) No SQS queues found")  
                     res.status(404)
-                    res.send(data)  
-                }  
+                    ui.data[ui.menuitem] ='404, No Queues Found\n\n' + JSON.stringify(data, null, 3)
+                }
+                res.render('./index', {ui: ui})
             }
         })
     })
@@ -69,6 +68,8 @@ module.exports = function (app) {
     // 3. get Queue URL. input = queue name
     app.get('/sqs-queue', function (req, res) {
 
+        ui.menuitem = 3
+
         // pass in the queue name to get the queue URL
         var qParams = {
             QueueName: req.query.queuename
@@ -76,14 +77,13 @@ module.exports = function (app) {
 
         sqs.getQueueUrl(qParams, function(err, data) {
             if (err) {
-                console.log("1!(get queue url)", err, err.stack) // an error occurred
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) Get Queue URL Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                console.log("(get queue url) Queue URL for", req.query.queuename, "is", data.QueueUrl)
                 res.status(200)
-                res.send(data)
+                ui.data[ui.menuitem] ='(200) Success:\n\n' + JSON.stringify(data, null, 3)
             }
+            res.render('./index', {ui: ui})
         })
     })
 
@@ -91,6 +91,8 @@ module.exports = function (app) {
 
     // 4. get Queue Attributes. input = queue URL
     app.get('/sqs-queue/attributes', function (req, res) {
+
+        ui.menuitem = 4
 
         // pass in the queue URL to get Attributes
         var qParams = {
@@ -100,15 +102,13 @@ module.exports = function (app) {
 
         sqs.getQueueAttributes(qParams, function(err, data) {
             if (err) {
-                console.log("!!(get queue attr)", err, err.stack) // an error occurred
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) Get Queue Attributes Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                console.log("(get queue attr) Queue Attributes are:")
-                console.log(data) 
                 res.status(200)
-                res.send(data)
+                ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
             }
+            res.render('./index', {ui: ui})
         })
     })
 
@@ -117,6 +117,8 @@ module.exports = function (app) {
     // 5. post message to queue. input = queue URL and message
     app.post ('/sqs-queue/message', function (req, res) {
 
+        ui.menuitem = 5
+
         var qParams = {
             MessageBody: req.body.message,
             QueueUrl: req.body.queueurl
@@ -124,21 +126,21 @@ module.exports = function (app) {
 
         sqs.sendMessage(qParams, function(err, data) {
             if (err) {
-            console.log("!!(post message) POST->500", err)
-            res.status(500)
-            res.send(err)
-        } else { 
-            console.log("(post message) Sent \"" + req.body.message + "\" to queue Url:", req.body.queueurl )
-            console.log("(post message ID is:", data.MessageId)
-            res.status(401)
-            res.send(data)
-        }
-    }) 
+                res.status(500)
+                ui.data[ui.menuitem] = '(500) Post Message to Queue Error:\n\n' + JSON.stringify(err, null, 3)
+            } else { 
+                res.status(201)
+                ui.data[ui.menuitem] =  '(201) Success:\n\n' + JSON.stringify(data, null, 3)
+            }
+            res.render('./index', {ui: ui})
+        }) 
     })
 
 
     // 6. receive (get) message. input = queue URL
     app.get('/sqs-queue/message', function (req, res) {
+
+        ui.menuitem = 6
 
         var params = {
             QueueUrl: req.query.queueurl,
@@ -146,24 +148,19 @@ module.exports = function (app) {
         };
         
         sqs.receiveMessage(params, function(err, data) {
-            if(err) {
-                console.log("!!(get message)", err)
+            if (err) {
                 res.status(500)
-                res.send(err)
-            } 
-            else {
-                if (data.Messages) {
-                    console.log("(get message) Message Receipt Handle:")
-                    console.log(data.Messages[0].ReceiptHandle)
-                    console.log("(get message) With body:", data.Messages[0].Body)
+                ui.data[ui.menuitem] = '(500) Get Message from Queue Error:\n\n' + JSON.stringify(err, null, 3)
+            } else {
+                if (data.Messages) { // there is a msg
                     res.status(200)
-                    res.send(data);
-                }  else { // no messages
-                    console.log("(get message) no messages to get")
+                    ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+                } else { // no messages
                     res.status(404)
-                    res.send(data);
+                    ui.data[ui.menuitem] = '(404) Not Found, No Messages in Queue:\n\n' 
                 }
             }
+            res.render('./index', {ui: ui})
         })
     })
 
@@ -171,72 +168,74 @@ module.exports = function (app) {
     // 7. delete message from queue
     app.post('/sqs-queue/message/delete', function (req, res) {
 
+        ui.menuitem = 7
+
         var params = {
             QueueUrl: req.body.queueurl,
             ReceiptHandle: req.body.messagehandle
         };
         
         sqs.deleteMessage(params, function(err, data) {
-            if(err) {
-                console.log("!!(delete message)", err)
+            if (err) {
                 res.status(500)
-                res.send(err)
-            } 
-            else {
-                console.log("(delete message) Delete Message. Receipt Handle:", req.body.messagehandle)
+                ui.data[ui.menuitem] = '(500) Delete Message from Queue Error:\n\n' + JSON.stringify(err, null, 3)
+            } else {
                 res.status(200)
-                res.send(data);
-            } 
+                ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+            }
+            res.render('./index', {ui: ui})
         });
     });
 
 
-
     // 8. purge queue - dangerzone
     app.post('/sqs-queue/purge', function (req, res) {
+
+        ui.menuitem = 8
 
         var params = {
             QueueUrl: req.body.queueurl
         }
         
         sqs.purgeQueue(params, function(err, data) {
-            if(err) {
-                console.log("!!(purge queue)", err)
+            if (err) {
                 res.status(500)
-                res.send(err);
-            } 
-            else {
-                console.log("(purge queue) Delete Queue", req.body.queueurl)
-                res.send(data);
-            } 
+                ui.data[ui.menuitem] = '(500) Delete Queue Error:\n\n' + JSON.stringify(err, null, 3)
+            } else {
+                res.status(200)
+                ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+            }
+            res.render('./index', {ui: ui}) 
         })
     })
 
 
-
     // 9. delete queue - dangerzone
     app.post('/sqs-queue/delete', function (req, res) {
+       
+        ui.menuitem = 9
         
             var params = {
                 QueueUrl: req.body.queueurl
             }
             
             sqs.deleteQueue(params, function(err, data) {
-                if(err) {
-                    console.log("!!(delete queue)", err)
+                if (err) { 
                     res.status(500)
-                    res.send(err);
-                } 
-                else {
-                    console.log("(delete queue) Delete Queue", req.body.queueurl)
-                    res.send(data);
-                } 
-            })
+                    ui.data[ui.menuitem] = '(500) Delete Queue Error:\n\n' + JSON.stringify(err, null, 3)
+                } else {
+                    res.status(200)
+                    ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+                }
+            res.render('./index', {ui: ui}) 
         })
+    })
 
 
     // 10. set policy for queue (allow sns -> sqs queue)
     app.post('/sqs/setqattr', function (req,res) {
+
+        ui.menuitem = 10
 
         var queuePolicyString = JSON.stringify ({   
                 "Version": "2012-10-17",
@@ -257,7 +256,6 @@ module.exports = function (app) {
                 ]
             })
             
-
         var sqsParams = {
             QueueUrl: req.body.sqsurl,
             Attributes: { 
@@ -267,17 +265,14 @@ module.exports = function (app) {
     
         sqs.setQueueAttributes(sqsParams, function (err,data) {  // needs queue URL as the parameter
             if (err) {
-                console.log("!!(set queue attr) Error", err)
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) Set Queue Attributes Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                console.log("(set queue attr) set policy for queue to:")
-                console.log (queuePolicyString)
                 res.status(200)
-                res.send(data)
+                ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
             }
+            res.render('./index', {ui: ui})
         })
     })
-        
 
 }

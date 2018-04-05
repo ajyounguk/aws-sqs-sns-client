@@ -1,86 +1,99 @@
-<!-- 1. Create Topic -->
-<div id="1" class="menu-div" style="display:none">
+<!-- 11. Create Topic -->
+<div id="11" class="menu-div" style="display:none">
     <form method="POST" action="/sns" >
-        <br><span>Create SNS Topic</span><br><hr><br>
+        <span>Create SNS Topic</span><hr><br>
         <label>Topic Name:</label>
-        <input placeholder ="SNS Topic Name" id ="snstopic" type="text" name ="snstopic" size=100  required >
-        <br><br><input type="submit" value="Create Topic">
+        <input placeholder ="SNS Topic Name" id ="snstopic" type="text" name="snstopic" required><br><br>
+        <input type="submit" value="Create Topic"><br><br>
+        <label>Response:</label>
+        <textarea name="response" id ="response" readonly><%= ui.data[11] %></textarea>
     </form>
 </div>
 
-<!-- 2. Subscribe Queue -->
-<div id="2" class="menu-div" style="display:none">
+<!-- 12. Subscribe Queue -->
+<div id="12" class="menu-div" style="display:none">
     <form method="POST"  action="/sns/subscribe-queue">
-        <br><span>Subscribe Queue to SNS Topic</span><br><hr><br>
+        <span>Subscribe Queue to SNS Topic</span><br><hr><br>
         <label>SNS Topic ARN:</label>
-        <input placeholder ="SNS Topic ARN" class="field-long" id ="snsarn" type="text" name ="snsarn"   required >
-        <br><br>
+        <input placeholder ="SNS Topic ARN" id ="snsarn" type="text" name ="snsarn" required><br><br>
         <label>SQS Queue ARN:</label>
-        <input placeholder ="SQS Queue ARN" class="field-long" id ="sqsarn" type="text" name ="sqsarn"  required >
-        <br><br><input  type="submit" value="Create Queue Subscription">
-        <br><label class="required">*remember to set sns policy to queue</label>
+        <input placeholder ="SQS Queue ARN" id ="sqsarn" type="text" name ="sqsarn" required ><br><br>
+        <input type="submit" value="Create Queue Subscription"><br>
+        <span class="required">*remember to set sns policy to queue</span><br><br>
+        <label>Response:</label>
+        <textarea name="response" id ="response" readonly><%= ui.data[12] %></textarea>
     </form>
 </div>
 
-<!-- 3. Subscribe Queue -->
-<div id="3" class="menu-div" style="display:none">
+<!-- 13. Subscribe Queue -->
+<div id="13" class="menu-div" style="display:none">
     <form method="POST" action="/sns/subscribe-email" >
-        <br><span>Subscribe email to SNS Topic</span><br><hr><br>
+        <span>Subscribe email to SNS Topic</span><br><hr><br>
         <label>SNS Topic ARN:</label>
-        <input placeholder="SNS Topic ARN" class="field-long" id ="snsarn" type="text" name ="snsarn"   required >
-        <br><br>
+        <input placeholder="SNS Topic ARN" id ="snsarn" type="text" name ="snsarn" required ><br><br>
         <label>Email Address:</label>
-        <input placeholder="Email Address" class="field-long" id ="email" type="text" name ="email"  required >
-        <br><br><input type="submit" value="Create Email Subscription">
+        <input placeholder="Email Address" id ="email" type="text" name ="email" required ><br><br>
+        <input type="submit" value="Create Email Subscription"><br><br>
+        <label>Response:</label>
+        <textarea name="response" id ="response" readonly><%= ui.data[13] %></textarea>
     </form>
 </div>
 
 <!-- 4. Subscribe Queue -->
 <div id="4" class="menu-div" style="display:none">
     <form method="POST" action="/sns/message" >
-        <br><span>Send Message to Topic</span><br><hr><br>
+        <span>Send Message to Topic</span><br><hr><br>
         <label>SNS Topic ARN:</label>
-        <input placeholder ="SNS Topic ARN" class="field-long" id ="snstopicarn" type="text" name ="snstopicarn"  required >
-        <br><br>
+        <input placeholder ="SNS Topic ARN" id ="snstopicarn" type="text" name ="snstopicarn"  required ><br><br>
         <label>Message:</label>
-        <input placeholder="Mesage" class="field-long" id ="snsmessage" type="text" name ="snsmessage"   required >
-        <br><br><input type="submit" value="Send message to topic">
+        <input placeholder="Mesage" id ="snsmessage" type="text" name ="snsmessage"   required >
+        <br><br><input type="submit" value="Send message to topic"><br><br>
+        <label>Response:</label>
+        <textarea name="response" id ="response" readonly><%= ui.data[14] %></textarea>
     </form>
 </div>
 
 <!-- 5. List Topics -->
 <div id="5" class="menu-div" style="display:none">
     <form method="GET" action="/sns" >
-        <br><span>List SNS Topics</span><br><hr><br>
-        <br><input type="submit" value="List Topics">
+        <span>List SNS Topics</span><br><hr><br>
+        <br><input type="submit" value="List Topics"><br><br>
+        <label>Response:</label>
+        <textarea name="response" id ="response" readonly><%= ui.data[15] %></textarea>
     </form>
 </div>
 
 <!-- 6. Create Topic -->
 <div id="6" class="menu-div" style="display:none">
     <form method="POST" action="/sns/delete-topic" >
-        <br><span>Delete SNS Topic</span><br><hr><br> 
+        <span>Delete SNS Topic</span><br><hr><br> 
         <label>SNS Topic ARN:</label>
-        <input placeholder="SNS Topic ARN" class="field-long" id ="snsarn" type="text" name ="snsarn"   required >
-        <br><br><input  type="submit" value="Delete Topic">
+        <input placeholder="SNS Topic ARN" id ="snsarn" type="text" name ="snsarn"   required >
+        <br><br><input  type="submit" value="Delete Topic"><br><br>
+        <label>Response:</label>
+        <textarea name="response" id ="response" readonly><%= ui.data[16] %></textarea>
     </form>
 </div>
 
 <!-- 7. List Subscriptions -->
 <div id="7" class="menu-div" style="display:none">
     <form method="GET" action="/sns/subscription" >
-        <br><span>List SNS Subscriptions</span><br><hr><br>
-        <br><input type="submit" value="List Subscriptions">
+        <span>List SNS Subscriptions</span><br><hr><br>
+        <br><input type="submit" value="List Subscriptions"><br><br>
+        <label>Response:</label>
+        <textarea name="response" id ="response" readonly><%= ui.data[17] %></textarea>
     </form>
 </div>
 
 <!-- 8. Delete Subscription -->
 <div id="8" class="menu-div" style="display:none">
     <form method="POST" action="/sns/delete-subscription" >
-        <br><span>Delete SNS Subscription</span><br><hr><br>
+        <span>Delete SNS Subscription</span><br><hr><br>
         <label>SNS Subscription ARN:</label>
-        <input placeholder="SNS Subscription ARN" class="field-long" id ="snssubarn" type="text" name ="snssubarn"   required >
-        <br><br><input type="submit" value="Delete Subscripiton">
+        <input placeholder="SNS Subscription ARN" id ="snssubarn" type="text" name ="snssubarn"   required >
+        <br><br><input type="submit" value="Delete Subscripiton"><br><br>
+        <label>Response:</label>
+        <textarea name="response" id ="response" readonly><%= ui.data[18] %></textarea>
     </form>
 </div>
 

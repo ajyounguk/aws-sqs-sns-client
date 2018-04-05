@@ -1,6 +1,5 @@
 // AWS test SNS controller / API 
-module.exports = function (app){
-
+module.exports = function (app, ui) {
 
     // load the AWS SDK
     var aws = require('aws-sdk')
@@ -17,29 +16,35 @@ module.exports = function (app){
     // create the sns service object
     var sns = new aws.SNS()
 
-    // 1. create Topic - input = topic name
+
+
+
+
+    // 11. create Topic - input = topic name
     app.post('/sns', function (req, res) {
+
+        ui.menuitem = 11
     
         var snsParams = {
             Name: req.body.snstopic
         }
 
         sns.createTopic(snsParams, function(err, data) {
-            if (err) {
-                console.log("!!(create topic) Error creating topic", err)
+            if (err) {              
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) Create Topic Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                console.log("(create topic) topic\" " + req.body.snstopic + " \"created")
-                console.log("(create topic) topic arn is:", data.TopicArn)
                 res.status(201)
-                res.send(data)
+                ui.data[ui.menuitem] = '(201) Success:\n\n' + JSON.stringify(data, null, 3)
             }
+            res.render('./index', {ui: ui})
         })
     })
 
-    // 2. subscribe queue to SNS topic
+    // 12. subscribe queue to SNS topic
     app.post('/sns/subscribe-queue', function (req, res) {
+        
+        ui.menuitem = 12
     
         var snsParams = {
             'TopicArn': req.body.snsarn,
@@ -49,20 +54,22 @@ module.exports = function (app){
         }
 
         sns.subscribe(snsParams, function(err, data) {
-            if (err) {
-                console.log("!!(subscribe queue) Error", err)
+            if (err) {              
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) Queue Subscription Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                console.log("(subscribe queue) subscribed queue", req.body.sqsarn, "to topic" ,req.body.snsarn)
                 res.status(201)
-                res.send(data)
+                ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
             }
+            res.render('./index', {ui: ui})
         })
     })
 
-    // 3. subscribe email to SNS topic
+
+    // 13. subscribe email to SNS topic
     app.post('/sns/subscribe-email', function (req, res) {
+
+        ui.menuitem = 13
     
         var snsParams = {
             'TopicArn': req.body.snsarn,
@@ -72,20 +79,22 @@ module.exports = function (app){
         }
 
         sns.subscribe(snsParams, function(err, data) {
-            if (err) {
-                console.log("!!(subscribe email) Error", err)
+            if (err) {              
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) Email Subscription Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                console.log("(subscribe email) subscribed email", req.body.email, "to topic" ,req.body.snsarn)
                 res.status(201)
-                res.send(data)
+                ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
             }
+            res.render('./index', {ui: ui})
         })
     })
 
-    // 4. Send message to SNS topics
+
+    // 14. Send message to SNS topics
     app.post('/sns/message', function (req, res) {
+
+        ui.menuitem = 14
 
         var snsParams = {
             Message: req.body.snsmessage,
@@ -93,145 +102,147 @@ module.exports = function (app){
         }
 
         sns.publish (snsParams, function (err, data) {
-            if (err) {
-                console.log("!!(sns publish) Error", err)
+            if (err) {              
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) Send Message Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                console.log("(sns publish) sent message:", req.body.snsmessage)
-                console.log("to topic arn:", req.body.snstopicarn)
-                res.status(200)
-                res.send(data)
+                res.status(201)
+                ui.data[ui.menuitem] = '(201) Success:\n\n' + JSON.stringify(data, null, 3)
             }
+            res.render('./index', {ui: ui})
         })   
     })
 
-    // 5. List SNS topics
+
+
+    // 15. List SNS topics
     app.get('/sns', function (req, res) {
 
-        function listone (listNextToken) {
+        ui.menuitem = 15
 
-            var datalist = { set: [] }
-            var i = 0
+        var datalist = { set: [] }
+        var i = 0
+
+        function listRecursive (listNextToken, callback) {
 
             if (listNextToken) {
                 var snsParams = { NextToken : listNextToken }
-                console.log("(sns list topics) >>> iterating, next token is:", listNextToken)
             } else {
                 var snsParams = {}
             }
 
             sns.listTopics (snsParams, function (err, data) {
                 if (err) {
-                    console.log("!!(sns list topics) Error", err)
                     res.status(500)
-                    res.send(err)
+                    ui.data[ui.menuitem] = '(500) List Topics Error:\n\n' + JSON.stringify(err, null, 3)
                 } else {
-                    console.log("(sns list topics) Topics:")
                     datalist.set[i] = data
                     i++
-                    console.log(data)
 
                     // if we have a next token, list again
                     if (data.NextToken) {
-                        setTimeout(listone(data.NextToken),0)
+                        listNextToken = data.NextToken
+                        listRecursive(data.NextToken, callback)
                     } else {
                         res.status(200)
-                        res.send(datalist)
+                        ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(datalist, null, 3)
+                        callback()
                     }
-                }
+                }  
             })
         }
-        listone()
+        listRecursive(undefined, function () {
+            res.render('./index', {ui: ui})
+        })
+        //res.render('./index', {ui: ui})
     })
 
-    // 6. Delete Topic
+
+
+    // 16. Delete Topic
     app.post('/sns/delete-topic', function (req, res) {
+
+        ui.menuitem = 16
 
         var snsParams = {
             TopicArn: req.body.snsarn
         } 
 
         sns.deleteTopic (snsParams, function (err, data) {
-            if (err) {
-                console.log("!!(sns delete topic) Error", err)
+            if (err) {              
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) Delete Topic  Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                console.log("(sns delete topic) deleted topic for arn:", req.body.snsarn)
-                res.status(200)
-                res.send(data)
+                res.status(201)
+                ui.data[ui.menuitem] = '(201) Success:\n\n' + JSON.stringify(data, null, 3)
             }
+            res.render('./index', {ui: ui})
         })   
     })
 
 
-    // 7. List SNS subscriptions
+    // 17. List SNS subscriptions
     app.get('/sns/subscription', function (req, res) {
+
+        ui.menuitem = 17
 
         var datalist = { set: [] }
         var i = 0
 
-        function listone (listNextToken) {
+        function listRecursive (listNextToken, callback) {
     
             if (listNextToken) {
                 var snsParams = { NextToken : listNextToken }
-                console.log("(sns list subscriptions) >>> iterating, next token is:", listNextToken)
             } else {
                 var snsParams = {}
             }
             
             sns.listSubscriptions (snsParams, function (err, data) {
-                if (err) {
-                    console.log("!!(sns list subscriptions) Error", err)
+                if (err) {                 
                     res.status(500)
-                    res.send(err)
+                    ui.data[ui.menuitem] = '(500) List Topics Error:\n\n' + JSON.stringify(err, null, 3)
                 } else {
-                    console.log("(sns list subscriptions) Subscriptions:")
                     datalist.set[i] = data
                     i++
-                    console.log(data)
+                   
 
                     // if we have a next token, list again
                     if (data.NextToken) {
                         listNextToken = data.NextToken
-            
-                    // wrap recursion with set timeout
-                    setTimeout(function () {
-                        listone(data.NextToken);
-                        }, 0);
-
+                        listRecursive(data.NextToken, callback)
                     } else {
                         res.status(200)
-                        res.send(datalist)    
+                        ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(datalist, null, 3)
+                        callback()
                     }
-                }
+                }  
             })
         }
-        listone()
+        listRecursive(undefined, function () {
+            res.render('./index', {ui: ui})
+        })
     })
 
-    /
+    
 
-    // 8. Unsubscribe
+    // 18. Unsubscribe
     app.post('/sns/delete-subscription', function (req, res) {
+
+        ui.menuitem = 18
 
         var snsParams = {
             SubscriptionArn: req.body.snssubarn
         } 
 
         sns.unsubscribe (snsParams, function (err, data) {
-            if (err) {
-                console.log("!!(sns delete subscription) Error", err)
+            if (err) {              
                 res.status(500)
-                res.send(err)
+                ui.data[ui.menuitem] = '(500) Delete Subscription Error:\n\n' + JSON.stringify(err, null, 3)
             } else {
-                console.log("(sns delete subscription) deleted subscription  arn:", req.body.snssubarn)
                 res.status(200)
-                res.send(data)
+                ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
             }
+            res.render('./index', {ui: ui})
         })   
-
-
     })
 }

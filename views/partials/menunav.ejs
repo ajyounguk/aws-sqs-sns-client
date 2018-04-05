@@ -1,90 +1,112 @@
 <!-- menu navigation -->
+
+<div class ="titlediv">
+    <h2>AWS SNS/SQS Demo</h2><hr>
+    <br>
+
+    <span class="menu">Menu</span><br>
+
+
+<div class="dropdown">
+        <button class="dropbtn" onclick="displayMenu(1)">SQS</button>
+        <div id="MyDropDown" class="dropdown-content">
+            <a onclick="displayOption(1)">Create Queue</a>
+            <a onclick="displayOption(2)">List Queues</a>
+            <a onclick="displayOption(3)">Get Queue URL</a>
+            <a onclick="displayOption(4)">Get Attributes</a>
+            <a onclick="displayOption(5)">Post Message</a>
+            <a onclick="displayOption(6)">Get Message</a>
+            <a onclick="displayOption(7)">Delete Message</a>
+            <a onclick="displayOption(8)">Purge Queue</a>
+            <a onclick="displayOption(9)">Delete Queue</a>
+            <a onclick="displayOption(10)">Set Policy</a>
+        </div>
+    </div>
+
+
+    <div class="dropdown">
+        <button class="dropbtn" onclick="displayMenu(2)">SNS</button>
+        <div id="MyDropDown" class="dropdown-content">
+            <a onclick="displayOption(11)">Create Topic</a>
+            <a onclick="displayOption(12)">Subscribe Queue</a>
+            <a onclick="displayOption(13)">Subscribe Email</a>
+            <a onclick="displayOption(14)">Send Message</a>
+            <a onclick="displayOption(15)">List Topics</a>
+            <a onclick="displayOption(16)">Delete Topics</a>
+            <a onclick="displayOption(17)">List Subscriptions</a>
+            <a onclick="displayOption(18)">Unsubscribe</a>
+        </div>
+    </div>
+</div>
+
 <script>
 
+    // last selected menu button global
+    selectedButton = 0;
 
+    // when nav button clicked = Show / hide menu content 
+    function displayMenu(opt) {
+ 
+        opt--;
+        selectedButton = opt
 
-    function navLoad() {
-        navSubOpts(1)
-        navOpts(1)
-    }
-
-   
-    function navOpts(opt) {
-
-        opt --; 
-        var i;
-
-        // get all menu-div (form display toggles) and menu-button class sets
-        var activeDiv = document.getElementsByClassName("menu-div");
-        var activeMenuButton = document.getElementsByClassName("menu-button");
-
-        // iterate, turn divs on if = option, else turn off; 
-        // set active menu button background too
-        for (i = 0; i < activeDiv.length; i++) {
-            if (i == opt) {    
-                activeDiv[i].style.display = "block"; 
-                activeMenuButton[i].style.background = "rgb(0, 9, 12)";
+        var activeMenuButton = document.getElementsByClassName("dropdown-content");
+        for (i = 0; i < activeMenuButton.length; i++) {
+            if (i == opt) {;
+                activeMenuButton[i].classList.add("show")
             } else {
-                activeDiv[i].style.display  = "none"; 
-                activeMenuButton[i].style.background = "";
+                activeMenuButton[i].classList.remove("show")
             }
         }
     }
 
-    function navSubOpts(opt) {
-
-        opt--;
-        var i;
-
-        // get all submenu-div (submenu display toggles) and submenu class sets
-        var activeSubDiv = document.getElementsByClassName("submenu-div");
-        var activeSubButton = document.getElementsByClassName("submenu-button");        
-
-        // iterate, set subOption menu button background
-        for (i =0; i < activeSubDiv.length; i++) {
-            if (i == opt) {
-                activeSubDiv[i].style.display = "block"; 
-                activeSubButton[i].style.background = "rgb(0, 9, 12)";
-            } else {
-                activeSubDiv[i].style.display  = "none"; 
-                activeSubButton[i].style.background = "";
-            }   
+    // when click outside the button = close the dropdown
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
         }
     }
 
+    // used on load..
+    // when user selects menu option = Open required div
+    // + set menu button background based on which menu is selecte
+    function displayOption(opt) {
 
 
+        // hacky way to determine selected menu button..
+        if (opt < 11) selectedButton = 0 
+        else selectedButton = 1
+
+        opt --; 
+        var i;
+
+        // get the required class sets..
+        var activeDiv = document.getElementsByClassName("menu-div");
+        var activeMenuButton = document.getElementsByClassName("dropbtn");
+
+        // iterate, turn form/option divs off / on based on selection
+        for (i = 0; i < activeDiv.length; i++) {
+            if (i == opt) {    
+                activeDiv[i].style.display = "block"; 
+            } else {
+                activeDiv[i].style.display  = "none"; 
+            }
+        }
+
+        for (i =0; i< activeMenuButton.length; i++) {
+            if (i == selectedButton ) {
+                activeMenuButton[i].classList.add('enabled');
+            } else {
+                activeMenuButton[i].classList.remove('enabled');
+            }
+        }
+
+    }
 </script>
-    
-    <div class ="titlediv">
-        <h2>AWS SNS/SQS Demo</h2><hr>
-
-        <input class ="submenu-button" type="submit" value ="SNS" onclick="navSubOpts(1)">
-        <input class ="submenu-button" type="submit" value="SQS" onclick="navSubOpts(2)">
-        <hr>
-
-        <div id="1" class="submenu-div" style="display:none">
-            <input class ="menu-button" type="submit" value ="Create Topic" onclick="navOpts(1)">
-            <input class ="menu-button" type="submit" value="Subscribe Queue" onclick="navOpts(2)">
-            <input class ="menu-button" type="submit" value="Subscribe Email" onclick="navOpts(3)">
-            <input class ="menu-button" type="submit" value="Send Message" onclick="navOpts(4)">
-            <input class ="menu-button" type="submit" value="List Topics" onclick="navOpts(5)">
-            <input class ="menu-button" type="submit" value="Delete Topics" onclick="navOpts(6)">
-            <input class ="menu-button" type="submit" value="List Subscriptions" onclick="navOpts(7)">
-            <input class ="menu-button" type="submit" value="Unsubscribe" onclick="navOpts(8)">
-        </div>
-
-        <div id="2" class="submenu-div" style="display:none">
-            <input class ="menu-button" type="submit" value ="Create Queue" onclick="navOpts(9)">
-            <input class ="menu-button" type="submit" value="List Queues" onclick="navOpts(10)">
-            <input class ="menu-button" type="submit" value="Get Queue URL" onclick="navOpts(11)">
-            <input class ="menu-button" type="submit" value="Get Attributes" onclick="navOpts(12)">
-            <input class ="menu-button" type="submit" value="Post Message" onclick="navOpts(13)">
-            <input class ="menu-button" type="submit" value="Get Message" onclick="navOpts(14)">
-            <input class ="menu-button" type="submit" value="Delete Message" onclick="navOpts(15)">
-            <input class ="menu-button" type="submit" value="Purge Queue" onclick="navOpts(16)">
-            <input class ="menu-button" type="submit" value="Delete Queue" onclick="navOpts(17)">
-            <input class ="menu-button" type="submit" value="Set Policy" onclick="navOpts(18)">
-        </div>
-    
-    </div>

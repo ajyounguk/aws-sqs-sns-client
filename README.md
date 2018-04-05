@@ -7,7 +7,9 @@ Node.js web server + html forms that excercise AWS SNS & SQS functionality
 - app.js = main app & webserver. Launch this
 - /controllers = HTTP routes and sns/sqs API functionality 
 - /config = example aws creds config file
-- /public = main index.html, and sqs/sns html forms 
+- /public = stylesheet
+- views = main index.ejs
+- views/partials = partials for menu navigation, sns and sqs forms 
 
 ### SQS Functionality:
 - Create SQS queues
@@ -57,7 +59,7 @@ cd config
 cp config-sample.json config.json
 ```
 
-For IAM user, add group policy = AmazonSQSFullAccess, AmazonSNSFullAccess works)
+For IAM user, add group policy = AmazonSQSFullAccess, AmazonSNSFullAccess 
 
 ## How to run it
 run the webserver:
@@ -66,7 +68,7 @@ run the webserver:
 node app.js
 ```
 
-point your browser at the local/remoteIP port 3000 to load the test harness, click the SNS/SQS buttons to launch the test html forms
+point your browser at the local/remoteIP port 3000 to load the HTML forms, click the SNS/SQS buttons to select the required functionality.
 
 For more information on AWS SNS and SQS:
 

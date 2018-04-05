@@ -5,21 +5,18 @@
     <title>AWS SQS SNS Demo</title>
 </head>
 
-<body class="simple-style" onload="navLoad()">
+<body class="simple-style">
+
+<!--
+<body class="simple-style" ">
+-->
+<body class="simple-style" onLoad=displayOption(<%= ui.menuitem %>)>
 
 <% include ./partials/menunav.ejs %>
 
-<% include ./partials/sns.ejs %>
 <% include ./partials/sqs.ejs %>
+<% include ./partials/sns.ejs %>
 
-
-
-
-
-
-<br>
-<br>
-<br>
 
 </body>
 </html>
