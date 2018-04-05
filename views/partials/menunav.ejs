@@ -1,0 +1,112 @@
+<!-- menu navigation -->
+
+<div class ="titlediv">
+    <h2>AWS SNS/SQS Demo</h2><hr>
+    <br>
+
+    <span class="menu">Menu</span><br>
+
+
+<div class="dropdown">
+        <button class="dropbtn" onclick="displayMenu(1)">SQS</button>
+        <div id="MyDropDown" class="dropdown-content">
+            <a onclick="displayOption(1)">Create Queue</a>
+            <a onclick="displayOption(2)">List Queues</a>
+            <a onclick="displayOption(3)">Get Queue URL</a>
+            <a onclick="displayOption(4)">Get Attributes</a>
+            <a onclick="displayOption(5)">Post Message</a>
+            <a onclick="displayOption(6)">Get Message</a>
+            <a onclick="displayOption(7)">Delete Message</a>
+            <a onclick="displayOption(8)">Purge Queue</a>
+            <a onclick="displayOption(9)">Delete Queue</a>
+            <a onclick="displayOption(10)">Set Policy</a>
+        </div>
+    </div>
+
+
+    <div class="dropdown">
+        <button class="dropbtn" onclick="displayMenu(2)">SNS</button>
+        <div id="MyDropDown" class="dropdown-content">
+            <a onclick="displayOption(11)">Create Topic</a>
+            <a onclick="displayOption(12)">Subscribe Queue</a>
+            <a onclick="displayOption(13)">Subscribe Email</a>
+            <a onclick="displayOption(14)">Send Message</a>
+            <a onclick="displayOption(15)">List Topics</a>
+            <a onclick="displayOption(16)">Delete Topics</a>
+            <a onclick="displayOption(17)">List Subscriptions</a>
+            <a onclick="displayOption(18)">Unsubscribe</a>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    // last selected menu button global
+    selectedButton = 0;
+
+    // when nav button clicked = Show / hide menu content 
+    function displayMenu(opt) {
+ 
+        opt--;
+        selectedButton = opt
+
+        var activeMenuButton = document.getElementsByClassName("dropdown-content");
+        for (i = 0; i < activeMenuButton.length; i++) {
+            if (i == opt) {;
+                activeMenuButton[i].classList.add("show")
+            } else {
+                activeMenuButton[i].classList.remove("show")
+            }
+        }
+    }
+
+    // when click outside the button = close the dropdown
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+
+    // used on load..
+    // when user selects menu option = Open required div
+    // + set menu button background based on which menu is selecte
+    function displayOption(opt) {
+
+
+        // hacky way to determine selected menu button..
+        if (opt < 11) selectedButton = 0 
+        else selectedButton = 1
+
+        opt --; 
+        var i;
+
+        // get the required class sets..
+        var activeDiv = document.getElementsByClassName("menu-div");
+        var activeMenuButton = document.getElementsByClassName("dropbtn");
+
+        // iterate, turn form/option divs off / on based on selection
+        for (i = 0; i < activeDiv.length; i++) {
+            if (i == opt) {    
+                activeDiv[i].style.display = "block"; 
+            } else {
+                activeDiv[i].style.display  = "none"; 
+            }
+        }
+
+        for (i =0; i< activeMenuButton.length; i++) {
+            if (i == selectedButton ) {
+                activeMenuButton[i].classList.add('enabled');
+            } else {
+                activeMenuButton[i].classList.remove('enabled');
+            }
+        }
+
+    }
+</script>
