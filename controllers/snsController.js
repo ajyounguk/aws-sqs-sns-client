@@ -17,9 +17,6 @@ module.exports = function (app, ui) {
     var sns = new aws.SNS()
 
 
-
-
-
     // 11. create Topic - input = topic name
     app.post('/sns', function (req, res) {
 
