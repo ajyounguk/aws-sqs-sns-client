@@ -4,3 +4,4 @@
 
 
 config/aws-override.json
+config/real-aws-config.json
