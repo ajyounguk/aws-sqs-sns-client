@@ -10,27 +10,28 @@ var app      = express();
 aws.config.loadFromPath(__dirname + '/config/aws-config.json')
 
 // load and override endpoints (if config file exists)
-var configFile = {}
-
- try {
+var configFile = null
+try {
     configFile = fs.readFileSync(__dirname + '/config/aws-override.json','utf8');
 } catch (err) {
     if (err.code === 'ENOENT') {
         console.log("No local AWS endpoint config found, using dafault routing to AWS")
     } else {
-        throw err;
-    } 
- } finally {
-        overrides = JSON.parse(configFile)
-            
-        console.log('Overriding AWS SQS endpoint to:', overrides.sqs_endpoint)
-        console.log('Overriding AWS SNS endpoint to:', overrides.sns_endpoint)
-
-        aws.config.sqs = { 'endpoint': overrides.sqs_endpoint }
-        aws.config.sns = { 'endpoint': overrides.sns_endpoint }
+        throw(err)
+    }
 }
 
-
+// if found, parse override config
+if (configFile) {
+            overrides = JSON.parse(configFile)
+            
+            console.log('Overriding AWS SQS endpoint to:', overrides.sqs_endpoint)
+            console.log('Overriding AWS SNS endpoint to:', overrides.sns_endpoint)
+    
+            aws.config.sqs = { 'endpoint': overrides.sqs_endpoint }
+            aws.config.sns = { 'endpoint': overrides.sns_endpoint }
+}
+        
 
 // this is the main object for holding all the UI data 
 // in arrays correspoding to the UI section/menuitem
