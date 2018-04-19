@@ -3,7 +3,7 @@
     <form method="POST" action="/sns" >
         <span>Create SNS Topic</span><hr><br>
         <label>Topic Name:</label>
-        <input placeholder ="SNS Topic Name" id ="snstopic" type="text" name="snstopic" required><br><br>
+        <input placeholder ="SNS Topic Name" id ="snstopic" type="text" name="snstopic" value="<%= def_snsname %>" required><br><br>
         <input type="submit" value="Create Topic"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" readonly><%= ui.data[11] %></textarea>
@@ -15,7 +15,7 @@
     <form method="POST"  action="/sns/subscribe-queue">
         <span>Subscribe Queue to SNS Topic</span><br><hr><br>
         <label>SNS Topic ARN:</label>
-        <input placeholder ="SNS Topic ARN" id ="snsarn" type="text" name ="snsarn" required><br><br>
+        <input placeholder ="SNS Topic ARN" id ="snsarn" type="text" name ="snsarn" value="<%= def_snsarn %>" required><br><br>
         <label>SQS Queue ARN:</label>
         <input placeholder ="SQS Queue ARN" id ="sqsarn" type="text" name ="sqsarn" required ><br><br>
         <input type="submit" value="Create Queue Subscription"><br>
@@ -25,7 +25,7 @@
     </form>
 </div>
 
-<!-- 13. Subscribe Queue -->
+<!-- 13. Subscribe Email -->
 <div id="13" class="menu-div" style="display:none">
     <form method="POST" action="/sns/subscribe-email" >
         <span>Subscribe email to SNS Topic</span><br><hr><br>
