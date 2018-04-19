@@ -1,18 +1,14 @@
 // AWS test SNS controller / API 
-module.exports = function (app, ui) {
+module.exports = function (aws, app, ui) {
 
-    // load the AWS SDK
-    var aws = require('aws-sdk')
-
+ 
     // setup bodyparser
     var bodyParser = require('body-parser');
     app.use(bodyParser.json()); // support json encoded bodies
     app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
-    // load aws config
-    aws.config.loadFromPath(__dirname + '/../config/aws-config.json')
-
+   
     // create the sns service object
     var sns = new aws.SNS()
 

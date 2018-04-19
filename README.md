@@ -56,7 +56,15 @@ npm install
 Copy the configuration details and add your AWS creds.
 ```
 cd config
-cp config-sample.json config.json
+cp aws-config-sample.json aws-config.json
+
+
+## Overrride Amazon SNS/SQS endpoints
+If you need to route your request to a proxy, or want to route SQS/SNS requests to a local pseudo AWS service (e.g. goaws or localStack) you can override endopoints by creating a aws-override.json config file:
+cd config
+cp aws-override-sample.json aws-override.json
+
+and edit the endpoints
 ```
 
 For IAM user, add group policy = AmazonSQSFullAccess, AmazonSNSFullAccess 
@@ -74,4 +82,10 @@ For more information on AWS SNS and SQS:
 
 https://aws.amazon.com/sns/
 https://aws.amazon.com/sqs/
+
+goaws and localstack links:
+
+https://github.com/p4tin/goaws
+https://github.com/localstack/localstack
+
 

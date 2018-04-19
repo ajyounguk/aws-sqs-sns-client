@@ -1,8 +1,7 @@
 // AWS test SQS controller / API 
-module.exports = function (app,ui) {
+module.exports = function (aws, app,ui) {
 
-    // load the AWS SDK
-    var aws = require('aws-sdk')
+  
 
     // setup bodyparser
     var bodyParser = require('body-parser');
@@ -14,9 +13,6 @@ module.exports = function (app,ui) {
 
     // create the sqs service object
     var sqs = new aws.SQS()
-
-
-
     
    
     // 1. create Queue 

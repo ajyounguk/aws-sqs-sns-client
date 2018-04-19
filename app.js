@@ -1,7 +1,36 @@
 
 // setup express server
 var express  = require('express');
+var aws      = require('aws-sdk');
+var fs       = require('fs');
 var app      = express();
+
+
+// load aws config
+aws.config.loadFromPath(__dirname + '/config/aws-config.json')
+
+// load and override endpoints (if config file exists)
+var configFile = {}
+
+ try {
+    configFile = fs.readFileSync(__dirname + '/config/aws-override.json','utf8');
+} catch (err) {
+    if (err.code === 'ENOENT') {
+        console.log("No local AWS endpoint config found, using dafault routing to AWS")
+    } else {
+        throw err;
+    } 
+ } finally {
+        overrides = JSON.parse(configFile)
+            
+        console.log('Overriding AWS SQS endpoint to:', overrides.sqs_endpoint)
+        console.log('Overriding AWS SNS endpoint to:', overrides.sns_endpoint)
+
+        aws.config.sqs = { 'endpoint': overrides.sqs_endpoint }
+        aws.config.sns = { 'endpoint': overrides.sns_endpoint }
+}
+
+
 
 // this is the main object for holding all the UI data 
 // in arrays correspoding to the UI section/menuitem
@@ -12,11 +41,13 @@ var ui = {
     data: []
 }
 
+
+
 var snsController = require('./controllers/snsController')
 var sqsController = require('./controllers/sqsController')
 
-snsController(app,ui);
-sqsController(app,ui);
+snsController(aws, app, ui);
+sqsController(aws, app, ui);
 
 var port = process.env.PORT || 3000
 
