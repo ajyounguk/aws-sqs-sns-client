@@ -43,7 +43,9 @@ var ui = {
     def_snsarn: '',
     def_sqsname: '',
     def_sqsurl: '',
-    def_sqsar: ''
+    def_sqsar: '',
+    def_subarn: '',
+    def_msghandle: ''
 }
 
 

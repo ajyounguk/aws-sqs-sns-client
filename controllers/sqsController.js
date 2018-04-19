@@ -31,6 +31,11 @@ module.exports = function (aws, app,ui) {
             } else {
                 res.status(201)
                 ui.data[ui.menuitem] ='(201) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                // default prepop
+                ui.def_sqsname = req.body.queuename
+                ui.def_sqsurl = data.QueueUrl
+
             }
             res.render('./index', {ui: ui})
         })
@@ -78,6 +83,10 @@ module.exports = function (aws, app,ui) {
             } else {
                 res.status(200)
                 ui.data[ui.menuitem] ='(200) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                 // default prepop
+                 ui.def_sqsname = req.query.queuename
+                 ui.def_sqsurl = data.QueueUrl
             }
             res.render('./index', {ui: ui})
         })
@@ -103,6 +112,10 @@ module.exports = function (aws, app,ui) {
             } else {
                 res.status(200)
                 ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                     // default prepop
+                     ui.def_sqsurl = req.query.queueurl  
+                     ui.def_sqsarn = data.Attributes.QueueArn 
             }
             res.render('./index', {ui: ui})
         })
@@ -127,6 +140,9 @@ module.exports = function (aws, app,ui) {
             } else { 
                 res.status(201)
                 ui.data[ui.menuitem] =  '(201) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                // default prepop
+                ui.def_sqsurl = req.body.queueurl 
             }
             res.render('./index', {ui: ui})
         }) 
@@ -151,6 +167,11 @@ module.exports = function (aws, app,ui) {
                 if (data.Messages) { // there is a msg
                     res.status(200)
                     ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                    // default prepop
+                    ui.def_sqsurl = req.query.queueurl   
+                    ui.def_msghandle = data.Messages[0].ReceiptHandle
+
                 } else { // no messages
                     res.status(404)
                     ui.data[ui.menuitem] = '(404) Not Found, No Messages in Queue:\n\n' 
@@ -178,6 +199,10 @@ module.exports = function (aws, app,ui) {
             } else {
                 res.status(200)
                 ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                // default prepop
+                ui.def_sqsurl = req.body.queueurl   
+            
             }
             res.render('./index', {ui: ui})
         });
@@ -200,6 +225,9 @@ module.exports = function (aws, app,ui) {
             } else {
                 res.status(200)
                 ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                // default prepop
+                ui.def_sqsurl = req.body.queueurl   
             }
             res.render('./index', {ui: ui}) 
         })
@@ -222,6 +250,9 @@ module.exports = function (aws, app,ui) {
                 } else {
                     res.status(200)
                     ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                    // default prepop
+                    ui.def_sqsurl = req.body.queueurl   
                 }
             res.render('./index', {ui: ui}) 
         })
@@ -266,6 +297,11 @@ module.exports = function (aws, app,ui) {
             } else {
                 res.status(200)
                 ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                // default prepop
+                ui.def_sqsarn = req.body.sqsarn  
+                ui.def_snsarn = req.body.snsarn  
+
             }
             res.render('./index', {ui: ui})
         })

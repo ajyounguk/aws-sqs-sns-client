@@ -4,7 +4,7 @@
     <form method="POST" action="/sqs-queue">
         <span>Create Queue</span><hr><br>
         <label>Queue Name:</label>
-        <input placeholder="Queue Name" id="queuename" type="text" name="queuename" required><br><br>
+        <input placeholder="Queue Name" id="queuename" type="text" name="queuename" value="<%= ui.def_sqsname %>" required><br><br>
         <input type="submit" value="Create Queue"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" rows=25 readonly><%= ui.data[1] %></textarea>
@@ -26,7 +26,7 @@
     <form  method="GET" action="/sqs-queue">
         <span>Get Queue Url</span><hr><br>
         <label>Queue Name:</label>
-        <input placeholder="Queue Name" id="queuename" type="text" name="queuename"><br><br>
+        <input placeholder="Queue Name" id="queuename" type="text" name="queuename" value="<%= ui.def_sqsname %>"><br><br>
         <input type="submit" value="Get Queue URL"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" rows=25 readonly><%= ui.data[3] %></textarea>
@@ -38,7 +38,7 @@
     <form  method="GET" action="/sqs-queue/attributes">
         <span>Get Queue Attributes</span><hr><br>
         <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="" required><br><br>
+        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl"value="<%= ui.def_sqsurl %>"required><br><br>
         <input type="submit" value="Get Queue Attributes"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" rows=25 readonly><%= ui.data[4] %></textarea>
@@ -50,7 +50,7 @@
     <form method="POST" action="/sqs-queue/message">
         <span>Post Message To Queue</span><hr><br>
         <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="" required><br><br>
+        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required><br><br>
         <label>Message:</label>
         <input placeholder="Message" id="message" type="text" name="message" value="" required><br><br>
         <input type="submit" value="Sent Message"><br><br>
@@ -64,7 +64,7 @@
     <form method="GET" action="/sqs-queue/message">
         <span>Get Message From Queue</span><hr><br>
         <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="" required><br><br>
+        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required><br><br>
         <input type="submit" value="Retrieve Message"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" rows=25 readonly><%= ui.data[6] %></textarea>
@@ -76,9 +76,9 @@
     <form method="POST" action="/sqs-queue/message/delete">
     <span>Delete Message From Queue</span><hr><br>
         <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="" required> <br><br>
+        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required> <br><br>
         <label>Message Receipt Handle:</label>
-        <input placeholder="Message Receipt Handle" id="messagehandle" type="text" name="messagehandle" value="" required><br><br>
+        <input placeholder="Message Receipt Handle" id="messagehandle" type="text" name="messagehandle" value="<%= ui.def_msghandle %>" required><br><br>
         <input type="submit" value="Delete Message"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" rows=25 readonly><%= ui.data[7] %></textarea>
@@ -90,7 +90,7 @@
     <form method="POST" action="/sqs-queue/purge">
     <span>Purge Messages From Queue</span><hr><br>
         <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="" required><br><br>
+        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required><br><br>
         <input type="submit" value="PURGE Queue"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" rows=25 readonly><%= ui.data[8] %></textarea>
@@ -102,7 +102,7 @@
     <form method="POST" action="/sqs-queue/delete">
         <span>Delete Queue</span><hr><br>
         <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="" required><br><br>
+        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required><br><br>
         <input type="submit" value="DELETE Queue"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" rows=25 readonly><%= ui.data[9] %></textarea>
@@ -114,11 +114,11 @@
     <form method="POST" action="/sqs/setqattr">
         <span>Set Queue Policy</span><hr><br>
         <label>Queue URL:</label>
-        <input placeholder="SQS Queue Url" id ="sqsurl" type="text" name="sqsurl" required><br><br>
+        <input placeholder="SQS Queue Url" id ="sqsurl" type="text" name="sqsurl" value="<%= ui.def_sqsurl %>" required><br><br>
         <label>Queue ARN:</label>
-        <input placeholder="SQS Queue Arn" id ="sqsarn" type="text" name="sqsarn" required><br><br>
+        <input placeholder="SQS Queue Arn" id ="sqsarn" type="text" name="sqsarn" value="<%= ui.def_sqsarn %>" required><br><br>
         <label>Topic ARN:</label>
-        <input placeholder="SNS Topic Arn" id ="snsarn" type="text" name="snsarn" required><br><br>
+        <input placeholder="SNS Topic Arn" id ="snsarn" type="text" name="snsarn" value="<%= ui.def_snsarn %>" required><br><br>
         <input type="submit" value="Set Queue Policy"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" rows=25 readonly><%= ui.data[10] %></textarea>
