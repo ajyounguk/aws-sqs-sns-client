@@ -1,4 +1,4 @@
-## AWS SQS & SNS Node.js Example / Demo code
+## AWS SQS & SNS Node.js Client 
 
 ## What is this?
 Node.js web server + html forms that excercise AWS SNS & SQS functionality 
@@ -6,7 +6,7 @@ Node.js web server + html forms that excercise AWS SNS & SQS functionality
 ## Contains
 - app.js = main app & webserver. Launch this
 - /controllers = HTTP routes and sns/sqs API functionality 
-- /config = example aws creds config file
+- /config = example aws creds config file and example endpoint override (optional) config file
 - /public = stylesheet
 - views = main index.ejs
 - views/partials = partials for menu navigation, sns and sqs forms 
