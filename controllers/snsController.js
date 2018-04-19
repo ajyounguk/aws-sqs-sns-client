@@ -29,6 +29,12 @@ module.exports = function (aws, app, ui) {
             } else {
                 res.status(201)
                 ui.data[ui.menuitem] = '(201) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                // ui prepop
+                ui.def_snsname = req.body.snstopic
+                ui.def_snsarn = data.TopicArn
+                
+
             }
             res.render('./index', {ui: ui})
         })
@@ -53,6 +59,11 @@ module.exports = function (aws, app, ui) {
             } else {
                 res.status(201)
                 ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                // ui prepop
+                ui.def_snsarn = req.body.snsarn
+                ui.def_sqsarn = req.body.snsarn
+                ui.def_subarn = data.SubscriptionArn
             }
             res.render('./index', {ui: ui})
         })
@@ -78,6 +89,10 @@ module.exports = function (aws, app, ui) {
             } else {
                 res.status(201)
                 ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+        
+                // ui prepop
+                ui.def_snsarn = req.body.snsarn
+
             }
             res.render('./index', {ui: ui})
         })
@@ -101,6 +116,10 @@ module.exports = function (aws, app, ui) {
             } else {
                 res.status(201)
                 ui.data[ui.menuitem] = '(201) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                      // ui prepop
+                      ui.def_snsarn = req.body.snstopicarn
+                  
             }
             res.render('./index', {ui: ui})
         })   
@@ -138,7 +157,7 @@ module.exports = function (aws, app, ui) {
                         listRecursive(data.NextToken, callback)
                     } else {
                         res.status(200)
-                        ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(datalist, null, 3)
+                        ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(datalist, null, 3)                        
                         callback()
                     }
                 }  
@@ -168,6 +187,10 @@ module.exports = function (aws, app, ui) {
             } else {
                 res.status(201)
                 ui.data[ui.menuitem] = '(201) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                // ui prepop
+                ui.def_snsarn = req.body.snsarn
+
             }
             res.render('./index', {ui: ui})
         })   
@@ -234,6 +257,8 @@ module.exports = function (aws, app, ui) {
             } else {
                 res.status(200)
                 ui.data[ui.menuitem] = '(200) Success:\n\n' + JSON.stringify(data, null, 3)
+
+                ui.def_subarn = req.body.snssubarn
             }
             res.render('./index', {ui: ui})
         })   

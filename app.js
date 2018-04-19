@@ -35,12 +35,19 @@ if (configFile) {
 
 // this is the main object for holding all the UI data 
 // in arrays correspoding to the UI section/menuitem
-// set ui.mode to false to invoke server in API mode ()
 
 var ui = {
     menuitem: 1,
-    data: []
+    data: [],
+    def_snsname: '',
+    def_snsarn: '',
+    def_sqsname: '',
+    def_sqsurl: '',
+    def_sqsar: '',
+    def_subarn: '',
+    def_msghandle: ''
 }
+
 
 
 
