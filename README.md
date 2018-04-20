@@ -1,7 +1,7 @@
 ## AWS SQS & SNS Node.js Client 
 
 ## What is this?
-Node.js web client that excercise AWS SNS & SQS functionality
+Node.js web client that excercises the AWS SNS & SQS functionality
 
 ![Alt text](/screenshots/snsmenu.png?raw=true)
 
