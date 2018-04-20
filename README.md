@@ -1,11 +1,11 @@
 ## AWS SQS & SNS Node.js Client 
 
 ## What is this?
-Node.js web server + html forms that excercise AWS SNS & SQS functionality 
+Node.js web client that excercise AWS SNS & SQS functionality
 
 ![Alt text](/screenshots/snsmenu.png?raw=true)
 
-## Contains
+## Contains:
 - app.js = main app & webserver. Launch this
 - /controllers = HTTP routes and sns/sqs API functionality 
 - /config = example aws creds config file and example endpoint override (optional) config file
