@@ -33,8 +33,14 @@ if (configFile) {
 }
         
 
-// this is the main object for holding all the UI data 
-// in arrays correspoding to the UI section/menuitem
+// this is the main object for holding all the UI data rendered in ejs templates
+// date for the various UI menu items is held in the 'data' array.
+//
+// menuitem is used to hold the currently active / selected menu items to be displayed, 
+// when index.ejs is loaded, it invokes a javascript function to enable the required div section using
+// this variable. 
+// 
+// the def_* variables are used to hold default / prepop values for the various input boxes 
 
 var ui = {
     menuitem: 1,
@@ -49,14 +55,13 @@ var ui = {
 }
 
 
-
-
 var snsController = require('./controllers/snsController')
 var sqsController = require('./controllers/sqsController')
 
 snsController(aws, app, ui);
 sqsController(aws, app, ui);
 
+// server listen port - can be overriden by an environment variable
 var port = process.env.PORT || 3000
 
 // configure assets and views
