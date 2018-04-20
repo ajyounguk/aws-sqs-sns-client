@@ -3,6 +3,8 @@
 ## What is this?
 Node.js web server + html forms that excercise AWS SNS & SQS functionality 
 
+![Alt text](/screenshots/snsmenu.png?raw=true)
+
 ## Contains
 - app.js = main app & webserver. Launch this
 - /controllers = HTTP routes and sns/sqs API functionality 
