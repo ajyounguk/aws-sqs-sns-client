@@ -62,13 +62,14 @@ cp aws-config-sample.json aws-config.json
 ```
 
 ## Overrride Amazon SNS/SQS endpoints
-```
+
 If you need to route your request to a proxy, or want to route SQS/SNS requests to a local pseudo AWS service (e.g. goaws or localStack) you can override endopoints by creating a aws-override.json config file:
+```
 cd config
 cp aws-override-sample.json aws-override.json
-
-and edit the endpoints
 ```
+and edit the endpoints
+
 
 For IAM user, add group policy = AmazonSQSFullAccess, AmazonSNSFullAccess 
 
