@@ -44,7 +44,8 @@ CSS template inspired from: https://www.sanwebe.com/2014/08/css-html-forms-desig
 
 
 ## Installation overview
-Mac = install node...
+install Node.js: https://nodejs.org/en/
+
 
 clone the repo and install modules:
 
