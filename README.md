@@ -57,6 +57,8 @@ npm install
 
 ## AWS Credentials
 Copy the configuration details and add your AWS creds.
+
+** please take care and don't commit your creds back to git **
 ```
 cd config
 cp aws-config-sample.json aws-config.json
