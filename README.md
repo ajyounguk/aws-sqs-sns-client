@@ -3,7 +3,9 @@
 ## What is this?
 Node.js web client that excercises the AWS SNS & SQS functionality
 
+## Screenshots
 ![Alt text](/screenshots/snsmenu.png?raw=true)
+![Alt text](/screenshots/sqsmenu.png?raw=true)
 
 ## Contains:
 - app.js = main app & webserver. Launch this
