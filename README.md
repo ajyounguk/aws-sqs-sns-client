@@ -52,8 +52,8 @@ install Node.js: https://nodejs.org/en/
 clone the repo and install modules:
 
 ```
-git clone https://github.com/ajyounguk/aws-sns-sqs-demo
-cd aws-sns-sqs-demo
+git clone https://github.com/ajyounguk/aws-sqs-sns-client
+cd aws-sqs-sns-client
 npm install
 ```
 
