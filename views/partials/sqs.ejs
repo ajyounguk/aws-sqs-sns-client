@@ -52,7 +52,7 @@
         <label>Queue URL:</label>
         <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required><br><br>
         <label>Message:</label>
-        <input placeholder="Message" id="message" type="text" name="message" value="" required><br><br>
+        <textarea placeholder="Message" id="message" name="message" value="" rows="5" required></textarea><br><br>
         <input type="submit" value="Sent Message"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" rows=25 readonly><%= ui.data[5] %></textarea>

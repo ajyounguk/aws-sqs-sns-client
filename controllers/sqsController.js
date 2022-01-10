@@ -1,8 +1,6 @@
 // AWS test SQS controller / API 
 module.exports = function (aws, app,ui) {
 
-  
-
     // setup bodyparser
     var bodyParser = require('body-parser');
     app.use(bodyParser.json()); // support json encoded bodies
@@ -127,12 +125,19 @@ module.exports = function (aws, app,ui) {
     app.post ('/sqs-queue/message', function (req, res) {
 
         ui.menuitem = 5
-
+        
         var qParams = {
-            MessageBody: req.body.message,
             QueueUrl: req.body.queueurl
-            }   
-
+        }
+        try {
+            var parsed = JSON.parse(req.body.message)
+            console.log(parsed)
+            
+            qParams.MessageBody(JSON.stringify(parsed))
+        }
+        catch  {
+            qParams.MessageBody = req.body.message
+        }
         sqs.sendMessage(qParams, function(err, data) {
             if (err) {
                 res.status(500)

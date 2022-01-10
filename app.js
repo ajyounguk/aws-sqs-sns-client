@@ -62,7 +62,7 @@ snsController(aws, app, ui);
 sqsController(aws, app, ui);
 
 // server listen port - can be overriden by an environment variable
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 3100
 
 // configure assets and views
 app.use('/assets', express.static(__dirname+'/public'))
