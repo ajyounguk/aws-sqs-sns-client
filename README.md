@@ -149,3 +149,56 @@ Based on code from the AWS SQS examples at https://www.youtube.com/watch?v=4Z74l
 Mark Allen's SNS code: https://github.com/markcallen/snssqs/blob/master/create.js
 
 CSS template inspired by https://www.sanwebe.com/2014/08/css-html-forms-designs
+
+## Architecture
+
+The app is a single Express server. Each form in the browser maps to one route, and each route makes one AWS SDK v3 call. The result is kept in memory and rendered back into the page.
+
+```mermaid
+flowchart TB
+    browser["<b>Browser</b><br/>EJS page · public/app.js"]
+
+    subgraph app["Node.js app · Express 5"]
+        direction TB
+        routes["<b>Routes</b><br/>controllers/sqsController.js<br/>controllers/snsController.js"]
+        render["<b>Results + views</b><br/>lib/render.js · views/*.ejs<br/>ui state"]
+        clients["<b>AWS SDK v3</b><br/>SQSClient · SNSClient"]
+        routes --> render
+        routes --> clients
+    end
+
+    config["<b>Configuration</b><br/>lib/awsConfig.js<br/>config/*.json or AWS provider chain"]
+
+    subgraph cloud["AWS or LocalStack"]
+        direction LR
+        sns["Amazon SNS"]
+        sqs["Amazon SQS"]
+        sns -. "delivers via queue policy" .-> sqs
+    end
+
+    browser -- "form POST / GET" --> routes
+    render -- "HTML" --> browser
+    config --> clients
+    clients --> sns
+    clients --> sqs
+```
+
+Actions that change something are POSTs. After the AWS call, the result is stored and the browser is redirected back to the page, so refreshing can't repeat a delete or purge:
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant E as Express app
+    participant U as ui state
+    participant A as AWS SQS / SNS
+
+    B->>E: POST /sqs-queue/delete (form)
+    E->>A: DeleteQueueCommand
+    A-->>E: result or error
+    E->>U: store result, update pre-filled fields
+    E-->>B: 303 redirect to /
+    B->>E: GET /
+    E->>U: read results
+    E-->>B: page with result panel
+    Note over B,U: Refreshing now repeats the GET, not the delete.<br/>List, get and receive actions are GETs and render directly.
+```
