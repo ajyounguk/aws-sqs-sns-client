@@ -1,101 +1,94 @@
+<% const panel = n => 'panel' + (ui.menuitem === n ? ' active' : '') %>
+
 <!-- 11. Create Topic -->
-<div id="11" class="menu-div" style="display:none">
-    <form method="POST" action="/sns" >
-        <span>Create SNS Topic</span><hr><br>
-        <label>Topic Name:</label>
-        <input placeholder ="SNS Topic Name" id ="snstopic" type="text" name="snstopic" value="<%= ui.def_snsname %>" required><br><br>
-        <input type="submit" value="Create Topic"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" readonly><%= ui.data[11] %></textarea>
+<section class="<%= panel(11) %>" data-item="11">
+    <h2>Create Topic</h2>
+    <form method="POST" action="/sns">
+        <label for="p11-snstopic">Topic name</label>
+        <input id="p11-snstopic" type="text" name="snstopic" value="<%= ui.def_snsname %>" placeholder="my-topic" required>
+        <div class="actions"><button type="submit">Create topic</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[11] }) %>
+</section>
 
 <!-- 12. Subscribe Queue -->
-<div id="12" class="menu-div" style="display:none">
-    <form method="POST"  action="/sns/subscribe-queue">
-        <span>Subscribe Queue to SNS Topic</span><br><hr><br>
-        <label>SNS Topic ARN:</label>
-        <input placeholder ="SNS Topic ARN" id ="snsarn" type="text" name ="snsarn" value="<%= ui.def_snsarn %>" required><br><br>
-        <label>SQS Queue ARN:</label>
-        <input placeholder ="SQS Queue ARN" id ="sqsarn" type="text" name ="sqsarn" value="<%= ui.def_sqsarn %>" required ><br><br>
-        <input type="submit" value="Create Queue Subscription"><br>
-        <span class="required">*remember to set sns policy to queue</span><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" readonly><%= ui.data[12] %></textarea>
+<section class="<%= panel(12) %>" data-item="12">
+    <h2>Subscribe Queue to Topic</h2>
+    <form method="POST" action="/sns/subscribe-queue">
+        <label for="p12-snsarn">Topic ARN</label>
+        <input id="p12-snsarn" type="text" name="snsarn" value="<%= ui.def_snsarn %>" placeholder="arn:aws:sns:region:account:topic" required>
+        <label for="p12-sqsarn">Queue ARN</label>
+        <input id="p12-sqsarn" type="text" name="sqsarn" value="<%= ui.def_sqsarn %>" placeholder="arn:aws:sqs:region:account:queue" required>
+        <p class="hint">Use SQS &rarr; Set Policy first, or SNS won't be allowed to deliver to the queue.</p>
+        <div class="actions"><button type="submit">Subscribe queue</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[12] }) %>
+</section>
 
 <!-- 13. Subscribe Email -->
-<div id="13" class="menu-div" style="display:none">
-    <form method="POST" action="/sns/subscribe-email" >
-        <span>Subscribe email to SNS Topic</span><br><hr><br>
-        <label>SNS Topic ARN:</label>
-        <input placeholder="SNS Topic ARN" id ="snsarn" type="text" name ="snsarn" value="<%= ui.def_snsarn %>" required ><br><br>
-        <label>Email Address:</label>
-        <input placeholder="Email Address" id ="email" type="email" name ="email" required ><br><br>
-        <input type="submit" value="Create Email Subscription"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" readonly><%= ui.data[13] %></textarea>
+<section class="<%= panel(13) %>" data-item="13">
+    <h2>Subscribe Email to Topic</h2>
+    <form method="POST" action="/sns/subscribe-email">
+        <label for="p13-snsarn">Topic ARN</label>
+        <input id="p13-snsarn" type="text" name="snsarn" value="<%= ui.def_snsarn %>" placeholder="arn:aws:sns:region:account:topic" required>
+        <label for="p13-email">Email address</label>
+        <input id="p13-email" type="email" name="email" placeholder="someone@example.com" required>
+        <p class="hint">AWS emails a confirmation link - the subscription stays pending until it's clicked.</p>
+        <div class="actions"><button type="submit">Subscribe email</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[13] }) %>
+</section>
 
 <!-- 14. Send Message -->
-<div id="14" class="menu-div" style="display:none">
-    <form method="POST" action="/sns/message" >
-        <span>Send Message to Topic</span><br><hr><br>
-        <label>SNS Topic ARN:</label>
-        <input placeholder ="SNS Topic ARN" id ="snstopicarn" type="text" name ="snstopicarn" value="<%= ui.def_snsarn %>" required ><br><br>
-        <label>Message:</label>
-        <input placeholder="Message" id ="snsmessage" type="text" name ="snsmessage" required >
-        <br><br><input type="submit" value="Send message to topic"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" readonly><%= ui.data[14] %></textarea>
+<section class="<%= panel(14) %>" data-item="14">
+    <h2>Publish Message to Topic</h2>
+    <form method="POST" action="/sns/message">
+        <label for="p14-snstopicarn">Topic ARN</label>
+        <input id="p14-snstopicarn" type="text" name="snstopicarn" value="<%= ui.def_snsarn %>" placeholder="arn:aws:sns:region:account:topic" required>
+        <label for="p14-snsmessage">Message</label>
+        <textarea id="p14-snsmessage" name="snsmessage" rows="5" placeholder="Message body - text or JSON" required></textarea>
+        <div class="actions"><button type="submit">Publish message</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[14] }) %>
+</section>
 
 <!-- 15. List Topics -->
-<div id="15" class="menu-div" style="display:none">
-    <form method="GET" action="/sns" >
-        <span>List SNS Topics</span><br><hr><br>
-        <br><input type="submit" value="List Topics"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" readonly><%= ui.data[15] %></textarea>
+<section class="<%= panel(15) %>" data-item="15">
+    <h2>List Topics</h2>
+    <form method="GET" action="/sns">
+        <div class="actions"><button type="submit">List topics</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[15] }) %>
+</section>
 
 <!-- 16. Delete Topic -->
-<div id="16" class="menu-div" style="display:none">
-    <form method="POST" action="/sns/delete-topic" >
-        <span>Delete SNS Topic</span><br><hr><br> 
-        <label>SNS Topic ARN:</label>
-        <input placeholder="SNS Topic ARN" id ="snsarn" type="text" name ="snsarn" value="<%= ui.def_snsarn %>" required >
-        <br><br><input  type="submit" value="Delete Topic"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" readonly><%= ui.data[16] %></textarea>
+<section class="<%= panel(16) %>" data-item="16">
+    <h2>Delete Topic</h2>
+    <form method="POST" action="/sns/delete-topic" data-confirm="Delete this topic and all its subscriptions?">
+        <label for="p16-snsarn">Topic ARN</label>
+        <input id="p16-snsarn" type="text" name="snsarn" value="<%= ui.def_snsarn %>" placeholder="arn:aws:sns:region:account:topic" required>
+        <p class="hint">Deletes the topic and all its subscriptions. This can't be undone.</p>
+        <div class="actions"><button type="submit" class="danger">Delete topic</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[16] }) %>
+</section>
 
 <!-- 17. List Subscriptions -->
-<div id="17" class="menu-div" style="display:none">
-    <form method="GET" action="/sns/subscription" >
-        <span>List SNS Subscriptions</span><br><hr><br>
-        <br><input type="submit" value="List Subscriptions"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" readonly><%= ui.data[17] %></textarea>
+<section class="<%= panel(17) %>" data-item="17">
+    <h2>List Subscriptions</h2>
+    <form method="GET" action="/sns/subscription">
+        <div class="actions"><button type="submit">List subscriptions</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[17] }) %>
+</section>
 
 <!-- 18. Delete Subscription -->
-<div id="18" class="menu-div" style="display:none">
-    <form method="POST" action="/sns/delete-subscription" >
-        <span>Delete SNS Subscription</span><br><hr><br>
-        <label>SNS Subscription ARN:</label>
-        <input placeholder="SNS Subscription ARN" id ="snssubarn" type="text" name ="snssubarn" value="<%= ui.def_subarn %>"  required >
-        <br><br><input type="submit" value="Delete Subscription"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" readonly><%= ui.data[18] %></textarea>
+<section class="<%= panel(18) %>" data-item="18">
+    <h2>Unsubscribe</h2>
+    <form method="POST" action="/sns/delete-subscription" data-confirm="Delete this subscription?">
+        <label for="p18-snssubarn">Subscription ARN</label>
+        <input id="p18-snssubarn" type="text" name="snssubarn" value="<%= ui.def_subarn %>" placeholder="arn:aws:sns:region:account:topic:id" required>
+        <div class="actions"><button type="submit" class="danger">Unsubscribe</button></div>
     </form>
-</div>
-
-
-
+    <%- include('response', { r: ui.data[18] }) %>
+</section>

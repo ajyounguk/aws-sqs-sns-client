@@ -3,17 +3,17 @@ const path = require('path')
 const express = require('express')
 const { SQSClient } = require('@aws-sdk/client-sqs')
 const { SNSClient } = require('@aws-sdk/client-sns')
-const { loadAwsConfig } = require('./lib/awsConfig')
+const { loadAwsConfig, describeConnection } = require('./lib/awsConfig')
 const snsController = require('./controllers/snsController')
 const sqsController = require('./controllers/sqsController')
 
 
 // this is the main object for holding all the UI data rendered in ejs templates
-// data for the various UI menu items is held in the 'data' array, indexed by menu item number.
+// the last result for each menu item is held in the 'data' array, indexed by menu item number
+// (see lib/render.js for its shape).
 //
-// menuitem is used to hold the currently active / selected menu items to be displayed,
-// when index.ejs is loaded, it invokes a javascript function to enable the required div section using
-// this variable.
+// menuitem is the currently active / selected menu item - the templates show that panel and
+// highlight it in the sidebar.
 //
 // the def_* variables are used to hold default / prepop values for the various input boxes
 //
@@ -33,15 +33,25 @@ function createUiState() {
 }
 
 
-// build the express app. clients can be injected (used by the tests)
-function createApp({ sqs, sns, ui = createUiState() } = {}) {
+// build the express app. clients (and the connection description) can be injected - used by the tests
+function createApp({ sqs, sns, ui = createUiState(), connection } = {}) {
     if (!sqs || !sns) {
         const config = loadAwsConfig()
         sqs = sqs || new SQSClient(config.sqs)
         sns = sns || new SNSClient(config.sns)
+        connection = connection || describeConnection(config)
     }
 
     const app = express()
+
+    // shown in the page header so it's obvious whether you're pointed at real AWS or a local emulator.
+    // region can come from a profile / env var, so ask the client for it rather than the config
+    app.locals.connection = connection || { kind: 'aws', label: 'AWS', region: null }
+    if (!app.locals.connection.region) {
+        sqs.config.region()
+            .then(function (region) { app.locals.connection.region = region })
+            .catch(function () { /* no region configured - calls will fail and say so */ })
+    }
 
     // configure assets and views
     app.use('/assets', express.static(path.join(__dirname, 'public')))

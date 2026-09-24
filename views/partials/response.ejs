@@ -1,0 +1,15 @@
+<!-- last result for a panel - r is an entry from ui.data (see lib/render.js) -->
+<% if (r) { %>
+<div class="response response-<%= r.kind %>">
+    <div class="response-head">
+        <span class="badge"><%= r.status %></span>
+        <span class="response-title"><%= r.title %></span>
+        <% if (r.json) { %><button type="button" class="copy">Copy</button><% } %>
+    </div>
+    <% if (r.message) { %><p class="response-message"><%= r.message %></p><% } %>
+    <% if (r.json) { %><pre class="json"><%= r.json %></pre><% } %>
+    <% if (r.requestId) { %><div class="response-meta">Request ID <code><%= r.requestId %></code></div><% } %>
+</div>
+<% } else { %>
+<div class="response response-empty">No response yet</div>
+<% } %>

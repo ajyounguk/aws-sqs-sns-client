@@ -10,7 +10,7 @@ const {
     ListSubscriptionsCommand,
     UnsubscribeCommand
 } = require('@aws-sdk/client-sns')
-const { setup, awsError } = require('./helpers')
+const { setup, awsError, assertRedirected } = require('./helpers')
 
 const QUEUE_ARN = 'arn:aws:sqs:eu-west-2:123456789012:test-queue'
 const TOPIC_ARN = 'arn:aws:sns:eu-west-2:123456789012:test-topic'
@@ -29,20 +29,20 @@ describe('SNS routes', () => {
 
             const res = await request(app).post('/sns').type('form').send({ snstopic: 'test-topic' })
 
-            assert.equal(res.status, 201)
+            assertRedirected(res)
             assert.equal(ui.menuitem, 11)
+            assert.equal(ui.data[11].status, 201)
             assert.equal(ui.def_snsname, 'test-topic')
             assert.equal(ui.def_snsarn, TOPIC_ARN)
-            assert.match(res.text, /displayOption\(11\)/)
         })
 
-        it('renders the error', async () => {
+        it('stores the error', async () => {
             snsMock.on(CreateTopicCommand).rejects(awsError('InvalidParameter', 'bad topic name'))
 
-            const res = await request(app).post('/sns').type('form').send({ snstopic: '!!' })
+            await request(app).post('/sns').type('form').send({ snstopic: '!!' })
 
-            assert.equal(res.status, 400)
-            assert.match(ui.data[11], /Create Topic Error/)
+            assert.equal(ui.data[11].status, 400)
+            assert.equal(ui.data[11].title, 'Create Topic Error')
             assert.equal(ui.def_snsarn, '')
         })
     })
@@ -54,7 +54,7 @@ describe('SNS routes', () => {
             const res = await request(app).post('/sns/subscribe-queue').type('form')
                 .send({ snsarn: TOPIC_ARN, sqsarn: QUEUE_ARN })
 
-            assert.equal(res.status, 201)
+            assertRedirected(res)
             assert.deepEqual(snsMock.commandCalls(SubscribeCommand)[0].args[0].input, {
                 TopicArn: TOPIC_ARN,
                 Protocol: 'sqs',
@@ -73,13 +73,13 @@ describe('SNS routes', () => {
         const res = await request(app).post('/sns/subscribe-email').type('form')
             .send({ snsarn: TOPIC_ARN, email: 'someone@example.com' })
 
-        assert.equal(res.status, 201)
+        assertRedirected(res)
         assert.deepEqual(snsMock.commandCalls(SubscribeCommand)[0].args[0].input, {
             TopicArn: TOPIC_ARN,
             Protocol: 'email',
             Endpoint: 'someone@example.com'
         })
-        assert.match(ui.data[13], /pending confirmation/)
+        assert.match(ui.data[13].json, /pending confirmation/)
     })
 
     it('POST /sns/message publishes to the topic', async () => {
@@ -88,7 +88,7 @@ describe('SNS routes', () => {
         const res = await request(app).post('/sns/message').type('form')
             .send({ snstopicarn: TOPIC_ARN, snsmessage: 'hello' })
 
-        assert.equal(res.status, 201)
+        assertRedirected(res)
         assert.deepEqual(snsMock.commandCalls(PublishCommand)[0].args[0].input, {
             TopicArn: TOPIC_ARN,
             Message: 'hello'
@@ -107,9 +107,7 @@ describe('SNS routes', () => {
             assert.equal(res.status, 200)
             assert.equal(snsMock.commandCalls(ListTopicsCommand).length, 2)
             assert.deepEqual(snsMock.commandCalls(ListTopicsCommand)[1].args[0].input, { NextToken: 'page2' })
-            assert.deepEqual(JSON.parse(ui.data[15].split('\n\n')[1]), {
-                Topics: [{ TopicArn: 'a' }, { TopicArn: 'b' }]
-            })
+            assert.deepEqual(JSON.parse(ui.data[15].json), { Topics: [{ TopicArn: 'a' }, { TopicArn: 'b' }] })
         })
 
         it('renders a response on error (used to hang the request)', async () => {
@@ -118,7 +116,7 @@ describe('SNS routes', () => {
             const res = await request(app).get('/sns')
 
             assert.equal(res.status, 403)
-            assert.match(ui.data[15], /List Topics Error/)
+            assert.equal(ui.data[15].title, 'List Topics Error')
         })
     })
 
@@ -127,7 +125,7 @@ describe('SNS routes', () => {
 
         const res = await request(app).post('/sns/delete-topic').type('form').send({ snsarn: TOPIC_ARN })
 
-        assert.equal(res.status, 200)
+        assertRedirected(res)
         assert.equal(snsMock.commandCalls(DeleteTopicCommand)[0].args[0].input.TopicArn, TOPIC_ARN)
     })
 
@@ -140,7 +138,7 @@ describe('SNS routes', () => {
             const res = await request(app).get('/sns/subscription')
 
             assert.equal(res.status, 200)
-            assert.deepEqual(JSON.parse(ui.data[17].split('\n\n')[1]), {
+            assert.deepEqual(JSON.parse(ui.data[17].json), {
                 Subscriptions: [{ SubscriptionArn: 's1' }, { SubscriptionArn: 's2' }]
             })
         })
@@ -151,7 +149,7 @@ describe('SNS routes', () => {
             const res = await request(app).get('/sns/subscription')
 
             assert.equal(res.status, 500)
-            assert.match(ui.data[17], /List Subscriptions Error/)
+            assert.equal(ui.data[17].title, 'List Subscriptions Error')
         })
     })
 
@@ -160,7 +158,7 @@ describe('SNS routes', () => {
 
         const res = await request(app).post('/sns/delete-subscription').type('form').send({ snssubarn: SUB_ARN })
 
-        assert.equal(res.status, 200)
+        assertRedirected(res)
         assert.equal(snsMock.commandCalls(UnsubscribeCommand)[0].args[0].input.SubscriptionArn, SUB_ARN)
         assert.equal(ui.def_subarn, SUB_ARN)
     })

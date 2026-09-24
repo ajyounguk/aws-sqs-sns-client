@@ -5,8 +5,17 @@ A small web UI for exercising AWS SNS and SQS: create queues and topics, wire th
 Built on Node.js, Express 5, EJS and the AWS SDK for JavaScript v3.
 
 ## Screenshots
-![SNS menu](/screenshots/snsmenu.png?raw=true)
-![SQS menu](/screenshots/sqsmenu.png?raw=true)
+Receiving a message from a queue:
+
+![Receive message from an SQS queue](/screenshots/sqs.png?raw=true)
+
+Listing SNS subscriptions:
+
+![List SNS subscriptions](/screenshots/sns.png?raw=true)
+
+Dark mode follows your system setting:
+
+![Subscribe a queue to a topic, dark mode](/screenshots/dark.png?raw=true)
 
 ## Features
 
@@ -88,7 +97,9 @@ The sample points at LocalStack's default edge port (`4566`). Env vars take prec
 npm start
 ```
 
-Open http://localhost:3000 and pick an option from the SQS or SNS menu.
+Open http://localhost:3000 and pick an action from the sidebar.
+
+The badge in the top-right corner shows where requests are going: red for real AWS, green for a local endpoint such as LocalStack, amber for any other endpoint. Destructive actions (purge, delete queue, delete topic, unsubscribe) ask for confirmation first. After an action runs, the page reloads cleanly, so refreshing never repeats it.
 
 | Env var | Default     | Purpose |
 |---------|-------------|---------|
@@ -122,8 +133,8 @@ The tests use Node's built-in test runner, [supertest](https://github.com/ladjs/
 | `lib/awsConfig.js` | Builds SDK client config from the config files and env vars |
 | `lib/render.js` | Writes results and errors into the UI state and renders the page |
 | `config/` | Sample credentials and endpoint-override files |
-| `views/` | `index.ejs` plus partials for the menu, SQS and SNS forms |
-| `public/` | Stylesheet |
+| `views/` | `index.ejs` plus partials for the sidebar, SQS and SNS forms, and the response panel |
+| `public/` | Stylesheet and browser script (sidebar, confirmations, copy, JSON highlighting) |
 | `test/` | Test suite |
 
 ## Links

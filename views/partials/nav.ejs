@@ -1,0 +1,24 @@
+<!-- sidebar navigation. item numbers match the panels in sqs.ejs / sns.ejs and ui.menuitem -->
+<%
+const menu = [
+    { title: 'SQS', items: [
+        [1, 'Create Queue'], [2, 'List Queues'], [3, 'Get Queue URL'], [4, 'Get Attributes'],
+        [5, 'Send Message'], [6, 'Receive Message'], [7, 'Delete Message'],
+        [8, 'Purge Queue', true], [9, 'Delete Queue', true], [10, 'Set Policy']
+    ] },
+    { title: 'SNS', items: [
+        [11, 'Create Topic'], [12, 'Subscribe Queue'], [13, 'Subscribe Email'], [14, 'Publish Message'],
+        [15, 'List Topics'], [16, 'Delete Topic', true], [17, 'List Subscriptions'], [18, 'Unsubscribe', true]
+    ] }
+]
+%>
+<nav class="sidebar" aria-label="Actions">
+    <% menu.forEach(function (group) { %>
+    <div class="nav-group">
+        <h2><%= group.title %></h2>
+        <% group.items.forEach(function ([item, label, danger]) { %>
+        <a href="#" data-item="<%= item %>" class="<%= ui.menuitem === item ? 'active' : '' %><%= danger ? ' danger' : '' %>"><%= label %></a>
+        <% }) %>
+    </div>
+    <% }) %>
+</nav>

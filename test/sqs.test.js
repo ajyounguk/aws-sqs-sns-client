@@ -14,7 +14,7 @@ const {
     SetQueueAttributesCommand
 } = require('@aws-sdk/client-sqs')
 const { buildSnsToSqsPolicy } = require('../controllers/sqsController')
-const { setup, awsError } = require('./helpers')
+const { setup, awsError, assertRedirected } = require('./helpers')
 
 const QUEUE_URL = 'https://sqs.eu-west-2.amazonaws.com/123456789012/test-queue'
 const QUEUE_ARN = 'arn:aws:sqs:eu-west-2:123456789012:test-queue'
@@ -33,12 +33,13 @@ describe('SQS routes', () => {
 
             const res = await request(app).post('/sqs-queue').type('form').send({ queuename: 'test-queue' })
 
-            assert.equal(res.status, 201)
+            assertRedirected(res)
             assert.equal(ui.menuitem, 1)
-            assert.match(ui.data[1], /^\(201\) Success/)
+            assert.equal(ui.data[1].status, 201)
+            assert.equal(ui.data[1].kind, 'success')
+            assert.deepEqual(JSON.parse(ui.data[1].json), { QueueUrl: QUEUE_URL })
             assert.equal(ui.def_sqsname, 'test-queue')
             assert.equal(ui.def_sqsurl, QUEUE_URL)
-            assert.match(res.text, /displayOption\(1\)/)
         })
 
         it('uses the AWS status code on error and does not touch prepop', async () => {
@@ -46,20 +47,22 @@ describe('SQS routes', () => {
 
             const res = await request(app).post('/sqs-queue').type('form').send({ queuename: 'bad name!' })
 
-            assert.equal(res.status, 400)
-            assert.match(ui.data[1], /^\(400\) Queue Creation Error/)
-            assert.match(ui.data[1], /bad queue name/)
-            assert.match(ui.data[1], /req-123/)
+            assertRedirected(res)
+            assert.equal(ui.data[1].status, 400)
+            assert.equal(ui.data[1].kind, 'error')
+            assert.equal(ui.data[1].title, 'Queue Creation Error')
+            assert.deepEqual(JSON.parse(ui.data[1].json), { name: 'InvalidParameterValue', message: 'bad queue name' })
+            assert.equal(ui.data[1].requestId, 'req-123')
             assert.equal(ui.def_sqsname, '')
         })
 
         it('falls back to 500 when the error has no HTTP status', async () => {
             sqsMock.on(CreateQueueCommand).rejects(new Error('socket hang up'))
 
-            const res = await request(app).post('/sqs-queue').type('form').send({ queuename: 'q' })
+            await request(app).post('/sqs-queue').type('form').send({ queuename: 'q' })
 
-            assert.equal(res.status, 500)
-            assert.match(ui.data[1], /socket hang up/)
+            assert.equal(ui.data[1].status, 500)
+            assert.match(ui.data[1].json, /socket hang up/)
         })
     })
 
@@ -73,7 +76,7 @@ describe('SQS routes', () => {
 
             assert.equal(res.status, 200)
             assert.equal(sqsMock.commandCalls(ListQueuesCommand).length, 2)
-            assert.deepEqual(JSON.parse(ui.data[2].split('\n\n')[1]), { QueueUrls: ['url-1', 'url-2', 'url-3'] })
+            assert.deepEqual(JSON.parse(ui.data[2].json), { QueueUrls: ['url-1', 'url-2', 'url-3'] })
         })
 
         it('returns 404 when there are no queues', async () => {
@@ -82,7 +85,8 @@ describe('SQS routes', () => {
             const res = await request(app).get('/sqs-queue/list')
 
             assert.equal(res.status, 404)
-            assert.match(ui.data[2], /No Queues Found/)
+            assert.equal(ui.data[2].kind, 'info')
+            assert.match(ui.data[2].message, /No Queues Found/)
         })
 
         it('renders a response on error (used to hang the request)', async () => {
@@ -91,7 +95,7 @@ describe('SQS routes', () => {
             const res = await request(app).get('/sqs-queue/list')
 
             assert.equal(res.status, 403)
-            assert.match(ui.data[2], /List Queue Error/)
+            assert.equal(ui.data[2].title, 'List Queue Error')
         })
     })
 
@@ -135,12 +139,13 @@ describe('SQS routes', () => {
         const res = await request(app).post('/sqs-queue/message').type('form')
             .send({ queueurl: QUEUE_URL, message: 'hello' })
 
-        assert.equal(res.status, 201)
+        assertRedirected(res)
         assert.deepEqual(sqsMock.commandCalls(SendMessageCommand)[0].args[0].input, {
             QueueUrl: QUEUE_URL,
             MessageBody: 'hello'
         })
-        assert.match(ui.data[5], /m-1/)
+        assert.equal(ui.data[5].status, 201)
+        assert.match(ui.data[5].json, /m-1/)
     })
 
     describe('GET /sqs-queue/message (receive)', () => {
@@ -162,7 +167,7 @@ describe('SQS routes', () => {
             const res = await request(app).get('/sqs-queue/message').query({ queueurl: QUEUE_URL })
 
             assert.equal(res.status, 404)
-            assert.match(ui.data[6], /No Messages in Queue/)
+            assert.match(ui.data[6].message, /No Messages in Queue/)
             assert.equal(ui.def_msghandle, '')
         })
     })
@@ -173,11 +178,12 @@ describe('SQS routes', () => {
         const res = await request(app).post('/sqs-queue/message/delete').type('form')
             .send({ queueurl: QUEUE_URL, messagehandle: 'handle-1' })
 
-        assert.equal(res.status, 200)
+        assertRedirected(res)
         assert.deepEqual(sqsMock.commandCalls(DeleteMessageCommand)[0].args[0].input, {
             QueueUrl: QUEUE_URL,
             ReceiptHandle: 'handle-1'
         })
+        assert.equal(ui.data[7].status, 200)
     })
 
     it('POST /sqs-queue/purge purges the queue', async () => {
@@ -185,7 +191,7 @@ describe('SQS routes', () => {
 
         const res = await request(app).post('/sqs-queue/purge').type('form').send({ queueurl: QUEUE_URL })
 
-        assert.equal(res.status, 200)
+        assertRedirected(res)
         assert.equal(sqsMock.commandCalls(PurgeQueueCommand)[0].args[0].input.QueueUrl, QUEUE_URL)
         assert.equal(ui.menuitem, 8)
     })
@@ -195,7 +201,7 @@ describe('SQS routes', () => {
 
         const res = await request(app).post('/sqs-queue/delete').type('form').send({ queueurl: QUEUE_URL })
 
-        assert.equal(res.status, 200)
+        assertRedirected(res)
         assert.equal(sqsMock.commandCalls(DeleteQueueCommand)[0].args[0].input.QueueUrl, QUEUE_URL)
         assert.equal(ui.menuitem, 9)
     })
@@ -206,7 +212,7 @@ describe('SQS routes', () => {
         const res = await request(app).post('/sqs/setqattr').type('form')
             .send({ sqsurl: QUEUE_URL, sqsarn: QUEUE_ARN, snsarn: TOPIC_ARN })
 
-        assert.equal(res.status, 200)
+        assertRedirected(res)
         const input = sqsMock.commandCalls(SetQueueAttributesCommand)[0].args[0].input
         assert.equal(input.QueueUrl, QUEUE_URL)
         const statement = JSON.parse(input.Attributes.Policy).Statement[0]

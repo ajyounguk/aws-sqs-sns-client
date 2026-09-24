@@ -1,4 +1,5 @@
 // shared test setup: an app wired to mocked SQS/SNS clients
+const assert = require('node:assert/strict')
 const { mockClient } = require('aws-sdk-client-mock')
 const { SQSClient } = require('@aws-sdk/client-sqs')
 const { SNSClient } = require('@aws-sdk/client-sns')
@@ -9,13 +10,13 @@ const fakeConfig = {
     credentials: { accessKeyId: 'test', secretAccessKey: 'test' }
 }
 
-function setup() {
+function setup({ connection = { kind: 'local', label: 'localhost:4566', region: 'eu-west-2' } } = {}) {
     const sqs = new SQSClient(fakeConfig)
     const sns = new SNSClient(fakeConfig)
     const sqsMock = mockClient(sqs)
     const snsMock = mockClient(sns)
     const ui = createUiState()
-    const app = createApp({ sqs, sns, ui })
+    const app = createApp({ sqs, sns, ui, connection })
     return { app, ui, sqsMock, snsMock }
 }
 
@@ -27,4 +28,10 @@ function awsError(name, message, httpStatusCode = 400) {
     return err
 }
 
-module.exports = { setup, awsError }
+// POSTs store their result then redirect back to the page (post/redirect/get)
+function assertRedirected(res) {
+    assert.equal(res.status, 303)
+    assert.equal(res.headers.location, '/')
+}
+
+module.exports = { setup, awsError, assertRedirected }

@@ -1,126 +1,121 @@
+<% const panel = n => 'panel' + (ui.menuitem === n ? ' active' : '') %>
 
 <!-- 1. Create Queue -->
-<div id="1" class="menu-div" style="display:none">
+<section class="<%= panel(1) %>" data-item="1">
+    <h2>Create Queue</h2>
     <form method="POST" action="/sqs-queue">
-        <span>Create Queue</span><hr><br>
-        <label>Queue Name:</label>
-        <input placeholder="Queue Name" id="queuename" type="text" name="queuename" value="<%= ui.def_sqsname %>" required><br><br>
-        <input type="submit" value="Create Queue"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" rows=25 readonly><%= ui.data[1] %></textarea>
+        <label for="p1-queuename">Queue name</label>
+        <input id="p1-queuename" type="text" name="queuename" value="<%= ui.def_sqsname %>" placeholder="my-queue" required>
+        <div class="actions"><button type="submit">Create queue</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[1] }) %>
+</section>
 
-<!-- 2. List all Queues -->    
-<div id="2" class="menu-div" style="display:none">
-    <form  method="GET" action="/sqs-queue/list">
-        <span>List Queues</span><hr><br><br>
-        <input type="submit" value="List Queue URLs"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" rows=25 readonly><%= ui.data[2] %></textarea>
+<!-- 2. List all Queues -->
+<section class="<%= panel(2) %>" data-item="2">
+    <h2>List Queues</h2>
+    <form method="GET" action="/sqs-queue/list">
+        <div class="actions"><button type="submit">List queues</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[2] }) %>
+</section>
 
-<!-- 3. Get Queue Url -->    
-<div id="3" class="menu-div" style="display:none">
-    <form  method="GET" action="/sqs-queue">
-        <span>Get Queue Url</span><hr><br>
-        <label>Queue Name:</label>
-        <input placeholder="Queue Name" id="queuename" type="text" name="queuename" value="<%= ui.def_sqsname %>"><br><br>
-        <input type="submit" value="Get Queue URL"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" rows=25 readonly><%= ui.data[3] %></textarea>
+<!-- 3. Get Queue Url -->
+<section class="<%= panel(3) %>" data-item="3">
+    <h2>Get Queue URL</h2>
+    <form method="GET" action="/sqs-queue">
+        <label for="p3-queuename">Queue name</label>
+        <input id="p3-queuename" type="text" name="queuename" value="<%= ui.def_sqsname %>" placeholder="my-queue" required>
+        <div class="actions"><button type="submit">Get queue URL</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[3] }) %>
+</section>
 
 <!-- 4. Get Queue Attributes -->
-<div id="4" class="menu-div" style="display:none">
-    <form  method="GET" action="/sqs-queue/attributes">
-        <span>Get Queue Attributes</span><hr><br>
-        <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required><br><br>
-        <input type="submit" value="Get Queue Attributes"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" rows=25 readonly><%= ui.data[4] %></textarea>
+<section class="<%= panel(4) %>" data-item="4">
+    <h2>Get Queue Attributes</h2>
+    <form method="GET" action="/sqs-queue/attributes">
+        <label for="p4-queueurl">Queue URL</label>
+        <input id="p4-queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" placeholder="https://sqs.region.amazonaws.com/account/queue" required>
+        <div class="actions"><button type="submit">Get attributes</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[4] }) %>
+</section>
 
-<!-- 5. Post Message to Queue -->    
-<div id="5" class="menu-div" style="display:none">
+<!-- 5. Post Message to Queue -->
+<section class="<%= panel(5) %>" data-item="5">
+    <h2>Send Message</h2>
     <form method="POST" action="/sqs-queue/message">
-        <span>Post Message To Queue</span><hr><br>
-        <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required><br><br>
-        <label>Message:</label>
-        <input placeholder="Message" id="message" type="text" name="message" value="" required><br><br>
-        <input type="submit" value="Send Message"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" rows=25 readonly><%= ui.data[5] %></textarea>
+        <label for="p5-queueurl">Queue URL</label>
+        <input id="p5-queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" placeholder="https://sqs.region.amazonaws.com/account/queue" required>
+        <label for="p5-message">Message</label>
+        <textarea id="p5-message" name="message" rows="5" placeholder="Message body - text or JSON" required></textarea>
+        <div class="actions"><button type="submit">Send message</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[5] }) %>
+</section>
 
-<!--6. Get Message from Queue -->    
-<div id="6" class="menu-div" style="display:none">
+<!-- 6. Get Message from Queue -->
+<section class="<%= panel(6) %>" data-item="6">
+    <h2>Receive Message</h2>
     <form method="GET" action="/sqs-queue/message">
-        <span>Get Message From Queue</span><hr><br>
-        <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required><br><br>
-        <input type="submit" value="Retrieve Message"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" rows=25 readonly><%= ui.data[6] %></textarea>
+        <label for="p6-queueurl">Queue URL</label>
+        <input id="p6-queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" placeholder="https://sqs.region.amazonaws.com/account/queue" required>
+        <p class="hint">The message stays hidden from other consumers for 60 seconds.</p>
+        <div class="actions"><button type="submit">Receive message</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[6] }) %>
+</section>
 
-<!-- 7. Delete Message from Queue -->    
-<div id="7" class="menu-div" style="display:none">
+<!-- 7. Delete Message from Queue -->
+<section class="<%= panel(7) %>" data-item="7">
+    <h2>Delete Message</h2>
     <form method="POST" action="/sqs-queue/message/delete">
-    <span>Delete Message From Queue</span><hr><br>
-        <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required> <br><br>
-        <label>Message Receipt Handle:</label>
-        <input placeholder="Message Receipt Handle" id="messagehandle" type="text" name="messagehandle" value="<%= ui.def_msghandle %>" required><br><br>
-        <input type="submit" value="Delete Message"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" rows=25 readonly><%= ui.data[7] %></textarea>
+        <label for="p7-queueurl">Queue URL</label>
+        <input id="p7-queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" placeholder="https://sqs.region.amazonaws.com/account/queue" required>
+        <label for="p7-messagehandle">Receipt handle</label>
+        <input id="p7-messagehandle" type="text" name="messagehandle" value="<%= ui.def_msghandle %>" placeholder="From Receive Message" required>
+        <div class="actions"><button type="submit">Delete message</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[7] }) %>
+</section>
 
-<!-- 8. Purge Queue (delete all messsages) -->    
-<div id="8" class="menu-div" style="display:none">
-    <form method="POST" action="/sqs-queue/purge">
-    <span>Purge Messages From Queue</span><hr><br>
-        <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required><br><br>
-        <input type="submit" value="PURGE Queue"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" rows=25 readonly><%= ui.data[8] %></textarea>
+<!-- 8. Purge Queue (delete all messsages) -->
+<section class="<%= panel(8) %>" data-item="8">
+    <h2>Purge Queue</h2>
+    <form method="POST" action="/sqs-queue/purge" data-confirm="Purge ALL messages from this queue?">
+        <label for="p8-queueurl">Queue URL</label>
+        <input id="p8-queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" placeholder="https://sqs.region.amazonaws.com/account/queue" required>
+        <p class="hint">Deletes every message in the queue. This can't be undone.</p>
+        <div class="actions"><button type="submit" class="danger">Purge queue</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[8] }) %>
+</section>
 
-<!-- 9. Delete Queue (deletes queue and all messsages) --> 
-<div id="9" class="menu-div" style="display:none">   
-    <form method="POST" action="/sqs-queue/delete">
-        <span>Delete Queue</span><hr><br>
-        <label>Queue URL:</label>
-        <input placeholder="Queue Url" id="queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" required><br><br>
-        <input type="submit" value="DELETE Queue"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" rows=25 readonly><%= ui.data[9] %></textarea>
+<!-- 9. Delete Queue (deletes queue and all messsages) -->
+<section class="<%= panel(9) %>" data-item="9">
+    <h2>Delete Queue</h2>
+    <form method="POST" action="/sqs-queue/delete" data-confirm="Delete this queue and all its messages?">
+        <label for="p9-queueurl">Queue URL</label>
+        <input id="p9-queueurl" type="text" name="queueurl" value="<%= ui.def_sqsurl %>" placeholder="https://sqs.region.amazonaws.com/account/queue" required>
+        <p class="hint">Deletes the queue and all its messages. This can't be undone.</p>
+        <div class="actions"><button type="submit" class="danger">Delete queue</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[9] }) %>
+</section>
 
-<!-- 10. Set queue attributes  -->
-<div id="10" class="menu-div" style="display:none">
+<!-- 10. Set queue attributes -->
+<section class="<%= panel(10) %>" data-item="10">
+    <h2>Set Queue Policy</h2>
     <form method="POST" action="/sqs/setqattr">
-        <span>Set Queue Policy</span><hr><br>
-        <label>Queue URL:</label>
-        <input placeholder="SQS Queue Url" id ="sqsurl" type="text" name="sqsurl" value="<%= ui.def_sqsurl %>" required><br><br>
-        <label>Queue ARN:</label>
-        <input placeholder="SQS Queue Arn" id ="sqsarn" type="text" name="sqsarn" value="<%= ui.def_sqsarn %>" required><br><br>
-        <label>Topic ARN:</label>
-        <input placeholder="SNS Topic Arn" id ="snsarn" type="text" name="snsarn" value="<%= ui.def_snsarn %>" required><br><br>
-        <input type="submit" value="Set Queue Policy"><br><br>
-        <label>Response:</label>
-        <textarea name="response" id ="response" rows=25 readonly><%= ui.data[10] %></textarea>
+        <label for="p10-sqsurl">Queue URL</label>
+        <input id="p10-sqsurl" type="text" name="sqsurl" value="<%= ui.def_sqsurl %>" placeholder="https://sqs.region.amazonaws.com/account/queue" required>
+        <label for="p10-sqsarn">Queue ARN</label>
+        <input id="p10-sqsarn" type="text" name="sqsarn" value="<%= ui.def_sqsarn %>" placeholder="From Get Attributes" required>
+        <label for="p10-snsarn">Topic ARN</label>
+        <input id="p10-snsarn" type="text" name="snsarn" value="<%= ui.def_snsarn %>" placeholder="arn:aws:sns:region:account:topic" required>
+        <p class="hint">Replaces the queue's policy with one that lets only this SNS topic send messages to it.</p>
+        <div class="actions"><button type="submit">Set policy</button></div>
     </form>
-</div>
+    <%- include('response', { r: ui.data[10] }) %>
+</section>
