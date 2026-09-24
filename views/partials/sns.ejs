@@ -32,29 +32,29 @@
         <label>SNS Topic ARN:</label>
         <input placeholder="SNS Topic ARN" id ="snsarn" type="text" name ="snsarn" value="<%= ui.def_snsarn %>" required ><br><br>
         <label>Email Address:</label>
-        <input placeholder="Email Address" id ="email" type="text" name ="email" required ><br><br>
+        <input placeholder="Email Address" id ="email" type="email" name ="email" required ><br><br>
         <input type="submit" value="Create Email Subscription"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" readonly><%= ui.data[13] %></textarea>
     </form>
 </div>
 
-<!-- 4. Subscribe Queue -->
-<div id="4" class="menu-div" style="display:none">
+<!-- 14. Send Message -->
+<div id="14" class="menu-div" style="display:none">
     <form method="POST" action="/sns/message" >
         <span>Send Message to Topic</span><br><hr><br>
         <label>SNS Topic ARN:</label>
         <input placeholder ="SNS Topic ARN" id ="snstopicarn" type="text" name ="snstopicarn" value="<%= ui.def_snsarn %>" required ><br><br>
         <label>Message:</label>
-        <input placeholder="Mesage" id ="snsmessage" type="text" name ="snsmessage" required >
+        <input placeholder="Message" id ="snsmessage" type="text" name ="snsmessage" required >
         <br><br><input type="submit" value="Send message to topic"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" readonly><%= ui.data[14] %></textarea>
     </form>
 </div>
 
-<!-- 5. List Topics -->
-<div id="5" class="menu-div" style="display:none">
+<!-- 15. List Topics -->
+<div id="15" class="menu-div" style="display:none">
     <form method="GET" action="/sns" >
         <span>List SNS Topics</span><br><hr><br>
         <br><input type="submit" value="List Topics"><br><br>
@@ -63,8 +63,8 @@
     </form>
 </div>
 
-<!-- 6. Create Topic -->
-<div id="6" class="menu-div" style="display:none">
+<!-- 16. Delete Topic -->
+<div id="16" class="menu-div" style="display:none">
     <form method="POST" action="/sns/delete-topic" >
         <span>Delete SNS Topic</span><br><hr><br> 
         <label>SNS Topic ARN:</label>
@@ -75,8 +75,8 @@
     </form>
 </div>
 
-<!-- 7. List Subscriptions -->
-<div id="7" class="menu-div" style="display:none">
+<!-- 17. List Subscriptions -->
+<div id="17" class="menu-div" style="display:none">
     <form method="GET" action="/sns/subscription" >
         <span>List SNS Subscriptions</span><br><hr><br>
         <br><input type="submit" value="List Subscriptions"><br><br>
@@ -85,13 +85,13 @@
     </form>
 </div>
 
-<!-- 8. Delete Subscription -->
-<div id="8" class="menu-div" style="display:none">
+<!-- 18. Delete Subscription -->
+<div id="18" class="menu-div" style="display:none">
     <form method="POST" action="/sns/delete-subscription" >
         <span>Delete SNS Subscription</span><br><hr><br>
         <label>SNS Subscription ARN:</label>
         <input placeholder="SNS Subscription ARN" id ="snssubarn" type="text" name ="snssubarn" value="<%= ui.def_subarn %>"  required >
-        <br><br><input type="submit" value="Delete Subscripiton"><br><br>
+        <br><br><input type="submit" value="Delete Subscription"><br><br>
         <label>Response:</label>
         <textarea name="response" id ="response" readonly><%= ui.data[18] %></textarea>
     </form>
