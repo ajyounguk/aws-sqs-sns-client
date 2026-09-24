@@ -1,22 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="/assets/styles.css"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="/assets/styles.css">
     <title>SNS SQS Client</title>
 </head>
 
-<body class="simple-style">
+<body>
 
-<!--
-<body class="simple-style" ">
--->
-<body class="simple-style" onLoad=displayOption(<%= ui.menuitem %>)>
+<header class="topbar">
+    <h1>AWS SNS/SQS Client</h1>
+    <span class="env env-<%= connection.kind %>" title="<%= connection.kind === 'aws' ? 'Requests go to real AWS' : 'Requests go to ' + connection.label %>">
+        <span class="env-dot"></span>
+        <%= connection.label %><% if (connection.region) { %> &middot; <%= connection.region %><% } %>
+    </span>
+</header>
 
-<%- include('partials/menu_navbar.ejs'); %>
+<div class="layout">
+    <%- include('partials/nav'); %>
 
-<%- include('partials/sqs.ejs'); %>
-<%- include('partials/sns.ejs'); %>
+    <main>
+        <%- include('partials/sqs'); %>
+        <%- include('partials/sns'); %>
+    </main>
+</div>
 
-
+<script src="/assets/app.js"></script>
 </body>
 </html>
