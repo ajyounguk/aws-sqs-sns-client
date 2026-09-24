@@ -7,15 +7,15 @@ Built on Node.js, Express 5, EJS and the AWS SDK for JavaScript v3.
 ## Screenshots
 Receiving a message from a queue:
 
-![Receive message from an SQS queue](/screenshots/sqs.png?raw=true)
+![Receive message from an SQS queue](screenshots/sqs.png)
 
 Listing SNS subscriptions:
 
-![List SNS subscriptions](/screenshots/sns.png?raw=true)
+![List SNS subscriptions](screenshots/sns.png)
 
 Dark mode follows your system setting:
 
-![Subscribe a queue to a topic, dark mode](/screenshots/dark.png?raw=true)
+![Subscribe a queue to a topic, dark mode](screenshots/dark.png)
 
 ## Features
 
